@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Syndash - Bootstrap4 Admin Template</title>
+    <link rel="icon" href="~/assets/images/favicon-32x32.png" type="image/png" />
+    @*<link href="~/assets/css/pace.min.css" rel="stylesheet" />
+    <script src="~/assets/js/pace.min.js"></script>*@
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/css/icons.css" />
+    <link rel="stylesheet" href="~/assets/css/app.css" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/assets/libs/izi-toast-mater/css/iziToast.min.css" rel="stylesheet" />
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/css/loading_animation_1.css" rel="stylesheet" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body class="bg-register">
+    <!-- wrapper -->
+    <div>
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- end wrapper -->
+    <!-- JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="~/assets/js/jquery.min.js"></script>
+    <!--Password show & hide js -->
+    <script>
+        $(document).ready(function () {
+            $("#show_hide_password a").on('click', function (event) {
+                event.preventDefault();
+                if ($('#show_hide_password input').attr("type") == "text") {
+                    $('#show_hide_password input').attr('type', 'password');
+                    $('#show_hide_password i').addClass("bx-hide");
+                    $('#show_hide_password i').removeClass("bx-show");
+                } else if ($('#show_hide_password input').attr("type") == "password") {
+                    $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password i').removeClass("bx-hide");
+                    $('#show_hide_password i').addClass("bx-show");
+                }
+            });
+        });
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/libs/moment/min/moment.min.js"></script>
+    <script src="~/assets/libs/izi-toast-mater/js/iziToast.min.js"></script>
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/utility_lib.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

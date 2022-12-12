@@ -1,0 +1,65 @@
+﻿@{
+    Student_WebAdmin.ViewModels.VM_AccountInfo account = new Student_WebAdmin.ViewModels.VM_AccountInfo();
+    if (User.Identity.IsAuthenticated)
+    {
+        account = new Student_WebAdmin.ViewModels.VM_AccountInfo()
+        {
+            userName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+            accountId = User.Claims.FirstOrDefault(c => c.Type == "AccountId")?.Value,
+            fullName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name)?.Value,
+            avatar = User.Claims.FirstOrDefault(c => c.Type == "Avatar")?.Value,
+            roles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Select(x => x.Value).ToList()
+        };
+    }
+}
+
+<header class="top-header">
+    <nav class="navbar navbar-expand">
+        <div class="right-topbar ml-auto">
+            <ul class="navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item dropdown dropdown-user-profile">
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                            <div class="media user-box align-items-center">
+                                <div class="media-body user-info">
+                                    <p class="user-name mb-0">@account.userName</p>
+                                </div>
+                                <img src=@account.avatar class="user-img" alt="user avatar">
+                                @*<img src="~/img/avatar.jpg" class="user-img" alt="user avatar"/>*@
+                            </div>
+
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="UserProfile">
+                                <i class="bx bx-user"></i><span>Profile</span>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <i class="bx bx-cog"></i><span>Settings</span>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <i class="bx bx-tachometer"></i><span>Dashboard</span>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <i class="bx bx-wallet"></i><span>Earnings</span>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <i class="bx bx-cloud-download"></i><span>Downloads</span>
+                            </a>
+                            <div class="dropdown-divider mb-0"></div>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">Logout</a>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogIn">Login</a>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </nav>
+</header>
