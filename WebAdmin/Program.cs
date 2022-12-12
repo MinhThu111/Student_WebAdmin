@@ -1,12 +1,11 @@
-﻿using Student_WebAdmin.Models;
-using Student_WebAdmin.Services;
+using Student_WebAdmin.Models;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Net;
 using Student_WebAdmin.Lib;
-using Student_WebAdmin.Mapper;
-using Student_WebAdmin.Middlewares;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Student_WebAdmin.Services;
 
 void GetDefaultHttpClient(IServiceProvider serviceProvider, HttpClient httpClient, string hostUri)
 {
@@ -34,6 +33,31 @@ HttpClientHandler GetDefaultHttpClientHandler()
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add builder.Services to the container.
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.Cookie = new CookieBuilder
+    {
+        Name = "Authentication",
+        HttpOnly = true,
+        Path = "/",
+        SameSite = SameSiteMode.Lax,
+        SecurePolicy = CookieSecurePolicy.Always
+    };
+    options.LoginPath = new PathString("/Account/LogIn");
+    options.LogoutPath = new PathString("/Account/SignOut");
+    options.AccessDeniedPath = new PathString("/Error/403");
+    options.SlidingExpiration = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.IsEssential = true;
+    options.Cookie.HttpOnly = true;
+});
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddHttpClient("base")
@@ -45,39 +69,17 @@ builder.Services.AddHttpClient("custom")
     .ConfigureHttpClient((serviceProvider, httpClient) => GetDefaultHttpClient(serviceProvider, httpClient, string.Empty))
     .SetHandlerLifetime(TimeSpan.FromMinutes(5)) //Default is 2 min
     .ConfigurePrimaryHttpMessageHandler(x => GetDefaultHttpClientHandler());
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromSeconds(5);
-    options.Cookie.SameSite = SameSiteMode.Lax;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = false;
-});
 
 builder.Services.AddSingleton<IBase_CallApi, Base_CallApi>();
 builder.Services.AddSingleton<ICallBaseApi, CallBaseApi>();
 builder.Services.AddSingleton<ICallApi, CallApi>();
-
-// Add services to the container.
-builder.Services.Configure<Config_ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
-builder.Services.Configure<Config_TokenUploadFile>(builder.Configuration.GetSection("TokenUploadFile"));
-
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly); //Init auto mappper
+builder.Services.AddSingleton<IS_Student, S_Student>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-
-builder.Services.AddScoped<IS_Student, S_Student>();
-builder.Services.AddScoped<IS_Person, S_Person>();
-builder.Services.AddScoped<IS_PersonType, S_PersonType>();
-builder.Services.AddScoped<IS_Nationality, S_Nationality>();
-builder.Services.AddScoped<IS_Religion, S_Religion>();
-builder.Services.AddScoped<IS_Folk, S_Folk>();
-
-
-//tạo đường dẫn map giữa json và model.
-//builder.Services.Configure<ContactModel>(builder.Configuration.GetSection("contact"));
+builder.Services.Configure<Config_ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+builder.Services.Configure<Config_TokenUploadFile>(builder.Configuration.GetSection("TokenUploadFile"));
 
 
 
@@ -107,7 +109,7 @@ else
 app.UseRequestLocalization();
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-app.UseMiddleware<SecurityHeadersMiddleware>(); //App config security header
+//app.UseMiddleware<SecurityHeadersMiddleware>(); //App config security header
 
 app.UseHttpsRedirection();
 //app.UseStaticFiles();
@@ -131,6 +133,18 @@ app.UseSession();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
+        name: "Account LogIn",
+        pattern: "account/login",
+        defaults: new { controller = "Account", action = "LogIn" });
+    endpoints.MapControllerRoute(
+        name: "Account ChooseSession",
+        pattern: "account/choose-session",
+        defaults: new { controller = "Account", action = "ChooseSession" });
+    endpoints.MapControllerRoute(
+        name: "Account SignOut",
+        pattern: "account/signout",
+        defaults: new { controller = "Account", action = "SignOut" });
+    endpoints.MapControllerRoute(
         name: "History update",
         pattern: "history-update",
         defaults: new { controller = "HistoryUpdate", action = "Index" });
@@ -140,11 +154,7 @@ app.UseEndpoints(endpoints =>
         defaults: new { controller = "Error", action = "Index" });
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Account}/{action=UserProfile}/{id?}");
 });
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

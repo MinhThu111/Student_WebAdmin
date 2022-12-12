@@ -59,4 +59,13 @@ namespace Student_WebAdmin.Models
         //public BaseCustom baseObj { get; set; }
 
     }
+    public class VM_Person: M_BaseModel.BaseCustom
+    {
+        public int? id { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public int? gender { get; set; }
+        public string email { get; set; }
+        public string avatar { get; set; }
+    }
 }
