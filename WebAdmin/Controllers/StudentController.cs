@@ -32,15 +32,13 @@ namespace Student_WebAdmin.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Mouse = SessionExtensionMethod.GetObject<string>(HttpContext.Session, "Mouse1");
-            ViewBag.Mouse2 = CookieHandleExtensionMethod.Get(HttpContext, "Mouse");
             return View();
         }
 
         [HttpGet]//ok
         public async Task<JsonResult> GetList(string status)
         {
-            var res = await _s_person.getListPerson(_accessToken);
+            var res = await _s_person.getListPersonBySequenceStatus(_accessToken,status);
 
             return Json(new M_JResult(res));
         }
@@ -56,8 +54,6 @@ namespace Student_WebAdmin.Controllers
         [HttpGet]//ok
         public async Task<IActionResult> P_Add()
         {
-            SessionExtensionMethod.SetObject<string>(HttpContext.Session, "Mouse1", "200,000d");
-            CookieHandleExtensionMethod.AddOrUpdate(HttpContext, "Mouse", "300,000d", DateTime.Now.AddSeconds(10));
             Task task1 = SetDropDownNationality(),
             task2 = SetDropDownPersonType(),
             task3 = SetDropDownFolk(),

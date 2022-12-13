@@ -1,13 +1,17 @@
 ﻿@model EM_Person
-
-<div class="card radius-15">
+s<div class="card radius-15">
     <div class="card-body">
-        <form asp-action="P_Add" id="form_data" asp-antiforgery="true">
+        <form  asp-action="P_Edit" id="form_data" asp-antiforgery="true">
             <div class="row border-0">
                 <div class="modal-header border-0">
-                    <h4 class="modal-title">Add Student</h4>
+                    <h4 class="modal-title">Update Student</h4>
                 </div>
                 <div class="col-12 col-lg-6 border-right">
+
+                    <div class="form-group">
+                        <label asp-for="id" class="control-label"></label>
+                        <input asp-for="id" class="form-control" readonly>
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="control-label">First Name</label>
@@ -73,7 +77,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" value="Cancel" class="btn btn-outline-secondary waves-effect " onclick="BackToTable('#div_main_table', '#div_view_panel');" />
-                    <input type="submit" class="btn btn-success" value="Add">
+                    <input type="submit" class="btn btn-success" value="Update">
                 </div>
             </div>
         </form>
