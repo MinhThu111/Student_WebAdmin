@@ -84,14 +84,14 @@ const columnTable = function () {
             data: "email",
             className: "text-nowrap"
         },
-        {
-            data: "personTypeId",
-            className: "text-nowrap"
-        },
-        {
-            data: "nationalityId",
-            className: "text-nowrap"
-        },
+        //{
+        //    data: "personTypeId",
+        //    className: "text-nowrap"
+        //},
+        //{
+        //    data: "nationalityId",
+        //    className: "text-nowrap"
+        //},
         {
             data: "status",
             render: (data, type, row, meta) => statusHtml(data),

@@ -18,6 +18,7 @@ namespace Student_WebAdmin.Lib
             public bool stayLoggedIn { get; set; }
             public DateTimeOffset? cookiesIntervalTimeOut { get; set; }
             public List<string> role { get; set; }
+            public string email { get; set; }   
         }
         private static IEnumerable<Claim> getUserClaims(M_AccountSecurity account)
         {
@@ -29,6 +30,7 @@ namespace Student_WebAdmin.Lib
                 new Claim(ClaimTypes.Name, account.name),
                 new Claim("Avatar", account.avatar),
                 new Claim("AccessToken", account.accessToken),
+                new Claim("Email",account.email)
             };
             account.role?.ForEach((x) => { claims.Add(new Claim(ClaimTypes.Role, IsNullOrEmpty(x) ? "" : x)); });
             return claims;
