@@ -2,7 +2,6 @@
 var dataTable;
 var $tableMain = $('#table_main');
 var $selectSearchStatus = $('#select_search_status');
-var $selectSearchGender = $('#select_search_gender');
 
 $(document).ready(function () {
 
@@ -38,8 +37,7 @@ const dataParamsTable = function (method = 'GET') {
         type: method,
         url: '/Student/GetList',
         data: function (d) {
-            //d.status = $selectSearchStatus.val();
-            //d.gender = $selectSearchGender.val();
+            d.status = $selectSearchStatus.val();
             //console.log(d.status);
         },
         dataType: 'json',
@@ -73,11 +71,26 @@ const columnTable = function () {
             render: (data, type, row, meta) => `<a class="table_a_href" onclick="ShowViewModal(this, '${row.id}')" href="javascript:void(0);">${row.lastName} ${row.firstName}</a>`,
         },
         {
-            data: "birthday",
-            render: function (data, type, row, meta) {
-                return data === 1 ? 'Nữ' : 'Nam';
-            },
-            className: "text-nowrap",
+            data: "gender",
+            render: (data) => data == '0' ? 'Male' : 'Female',
+            className: "text-nowrap"
+        },
+        {
+            data: "birthDay",
+            render: (data) => new Date(data).toLocaleDateString(),
+            className: "text-center text-nowrap",
+        },
+        {
+            data: "email",
+            className: "text-nowrap"
+        },
+        {
+            data: "personTypeId",
+            className: "text-nowrap"
+        },
+        {
+            data: "nationalityId",
+            className: "text-nowrap"
         },
         {
             data: "status",
@@ -99,7 +112,7 @@ function LoadDataTable(method = 'GET') {
     console.log("hello");
     if (dataTable) dataTable.ajax.reload(null, true);
     dataTable = $tableMain.DataTable({
-        search:false,
+        search: false,
         lengthChange: true,
         lengthMenu: _lengthMenuResource,
         colReorder: { allowReorder: false },
@@ -289,7 +302,7 @@ function InitSubmitEditForm() {
                 BackToTable('#div_main_table', '#div_view_panel');
                 ChangeUIEdit(dataTable, response.data.id, response.data);
             }, error: function (err) {
-                laddaSubmitForm.stop();
+                //laddaSubmitForm.stop();
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
             }
         });
@@ -337,9 +350,4 @@ function ChangeStatus(elm, e, id, timer) {
 function CheckNewRecordIsAcceptAddTable(data) {
     let condition = true; //place condition expression in here
     return condition;
-}
-
-//reload
-function Reload() {
-    dataTable.ajax.reload(null, false);
 }

@@ -79,6 +79,7 @@ namespace Student_WebAdmin.Services
         }
         public async Task<ResponseData<M_Person>> Update(string accessToken, EM_Person model, string updatedBy)
         {
+           
             Dictionary<string, dynamic> dictPars = new Dictionary<string, dynamic>
             {
                 {"id", model.id},
