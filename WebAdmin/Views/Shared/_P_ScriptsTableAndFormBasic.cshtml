@@ -1,0 +1,19 @@
+﻿<partial name="_P_ValidationScripts" />
+<script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/libs/datatables.net-bs4/js/ColReorderWithResize.js"></script>
+<script src="~/assets/libs/ladda/spin.min.js"></script>
+<script src="~/assets/libs/ladda/ladda.min.js"></script>
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<script src="~/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+<partial name="_P_ValidationScripts" />
+<script>
+    try {
+        $.fn.dataTable.ext.errMode = 'none';//Disable warning dataTable
+    } catch (err) {
+        console.log("ERROR DataTable: " + err.message);
+    }
+</script>

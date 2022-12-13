@@ -1,0 +1,50 @@
+﻿@section Styles{
+    <partial name="_P_StylesTableAndFormBasic" />
+}
+@section Scripts{
+    <partial name="_P_ScriptsTableAndFormBasic" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="~/controller/student_manage.js" asp-append-version="true"></script>
+}
+
+<div class="wrapper">
+    <div class="page-wrapper">
+        <div class="page-content-wrapper">
+            <div class="page-content" id="div_main_table">
+                <div class="card radius-15">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h5 class="mb-0">Manage Student </h5>
+                            <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xE147;</i> <span>Add New Student</span></a>
+                        </div>
+                        <hr />
+                        <div class="table-responsive">
+                            <table class="table mb-0 w-100" id="table_main">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Stt</th>
+                                        <th>Name</th>
+                                        <th>Birthday</th>
+                                        <th>Status</th>
+                                        <th>Acction</th>
+                                    </tr>
+                                </thead>
+                                <tfoot class="thead-dark">
+                                    <tr>
+                                        <th>Stt</th>
+                                        <th>Name</th>
+                                        <th>Birthday</th>
+                                        <th>Status</th>
+                                        <th>Acction</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body card_background_detail" id="div_view_panel" style="display:none;"></div>
+        </div>
+    </div>
+
+</div>
