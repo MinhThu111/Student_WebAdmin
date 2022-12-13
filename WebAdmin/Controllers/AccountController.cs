@@ -96,9 +96,15 @@ namespace Student_WebAdmin.Controllers
         {
             return View();
         }
-        public async Task<IActionResult>UserProfile()
+        [HttpGet]
+        public async Task<IActionResult>UserProfile(int? id)
         {
             return View();
         }
+        //[HttpPost,ValidateAntiForgeryToken]
+        //public async Task<IActionResult> UpdataProfile(M_Person model)
+        //{
+        //    return View();
+        //}
     }
 }

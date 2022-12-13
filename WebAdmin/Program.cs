@@ -6,6 +6,7 @@ using System.Net;
 using Student_WebAdmin.Lib;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Student_WebAdmin.Services;
+using Student_WebAdmin.Mapper;
 
 void GetDefaultHttpClient(IServiceProvider serviceProvider, HttpClient httpClient, string hostUri)
 {
@@ -73,7 +74,6 @@ builder.Services.AddHttpClient("custom")
 builder.Services.AddSingleton<IBase_CallApi, Base_CallApi>();
 builder.Services.AddSingleton<ICallBaseApi, CallBaseApi>();
 builder.Services.AddSingleton<ICallApi, CallApi>();
-builder.Services.AddSingleton<IS_Student, S_Student>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -81,6 +81,12 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.Configure<Config_ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 builder.Services.Configure<Config_TokenUploadFile>(builder.Configuration.GetSection("TokenUploadFile"));
 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+builder.Services.AddScoped<IS_Person, S_Person>();
+builder.Services.AddScoped<IS_PersonType, S_PersonType>();
+builder.Services.AddScoped<IS_Nationality, S_Nationality>();
+builder.Services.AddScoped<IS_Religion, S_Religion>();
+builder.Services.AddScoped<IS_Folk, S_Folk>();
 
 
 var app = builder.Build();
