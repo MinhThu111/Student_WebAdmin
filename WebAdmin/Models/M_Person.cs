@@ -22,8 +22,6 @@ namespace Student_WebAdmin.Models
         public M_Nationality nationalityObj { get; set; }
         public M_PersonType personTypeObj { get; set; }
 
-
-
     }
     public class EM_Person:M_BaseModel.BaseCustom
     {
