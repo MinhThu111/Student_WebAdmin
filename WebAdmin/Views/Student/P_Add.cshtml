@@ -19,23 +19,24 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Person Type</label>
-                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class=" form-control">
-                            <option value="">Person Type</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label class="control-label">Birthday</label>
                         <input asp-for="birthDay" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Gender</label>
                         <div class="form-control border-white">
+                            <label class="control-label">Gender</label>
                             <input asp-for="gender" type="radio" value="0" />
                             <label asp-for="gender">Male</label>
                             <input asp-for="gender" type="radio" value="1" />
                             <label asp-for="gender">Female</label>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Person Type</label>
+                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class=" form-control">
+                            <option value="">Person Type</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Nationality</label>
@@ -43,9 +44,6 @@
                             <option value="">Nationality</option>
                         </select>
                     </div>
-                </div>
-                <div class="col-12 col-lg-6">
-
                     <div class="form-group">
                         <label class="control-label">Religion</label>
                         <select asp-for="religionId" asp-items=" ViewBag.ReligionId" class=" form-control">
@@ -58,10 +56,49 @@
                             <option value="">Folk</option>
                         </select>
                     </div>
-                    <div class="form-group ">
-                        <label class="control-label">Address</label>
-                        <input asp-for="addressId" class="form-control" placeholder="Address">
+                </div>
+                <div class="col-12 col-lg-6">
+
+                    <div class="form-group" id="div_form_province">
+                        <span class="has-float-label">
+                            <label asp-for="addressObj.provinceId">Tỉnh - Thành phố</label>
+                            <select asp-for="addressObj.provinceId" asp-items="ViewBag.ProvinceId"
+                                    class="select2 form-control" onchange="LoadDistrict(this, '#div_form_district', '#form_data')">
+                                <option value="0" >--Chọn--</option>
+                            </select>
+                        </span>
+                        <span asp-validation-for="addressObj.provinceId" class="invalid-feedback"></span>
                     </div>
+                    <div class="form-group" id="div_form_district">
+                        <span class="has-float-label">
+                            <label asp-for="addressObj.districtId">Quận - Huyện</label>
+                            <select asp-for="addressObj.districtId" asp-items="ViewBag.DistrictId"
+                                    class="select2 form-control" onchange="LoadWard(this, '#div_form_ward', '#form_data')">
+                                <option value="0" >--Chọn--</option>
+                            </select>
+                        </span>
+                        <span asp-validation-for="addressObj.districtId" class="invalid-feedback"></span>
+                    </div>
+                    <div class="form-group" id="div_form_ward">
+                        <span class="has-float-label">
+                            <label asp-for="addressObj.wardId">Phường - Xã</label>
+                            <select asp-for="addressObj.wardId" asp-items="ViewBag.WardId" class="select2 form-control">
+                                <option value="0" >--Chọn--</option>
+                            </select>
+                        </span>
+                        <span asp-validation-for="addressObj.wardId" class="invalid-feedback"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label asp-for="addressObj.addressText">Số nhà/tổ/khu phố</label>
+                            <input asp-for="addressObj.addressText" class="form-control" maxlength="150" placeholder="eg: C20 Hẻm số 40 Đường Nguyễn Du" />
+
+                        </span>
+                        <span asp-validation-for="addressObj.addressText" class="invalid-feedback"></span>
+                    </div>
+
+
+
                     <div class="form-group">
                         <label class="control-label">Phone Number</label>
                         <input asp-for="phoneNumber" class="form-control" placeholder="Phone number">
@@ -70,12 +107,14 @@
                         <label class="control-label">Email</label>
                         <input asp-for="email" class="form-control" placeholder="Email">
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="button" value="Cancel" class="btn btn-outline-secondary waves-effect " onclick="BackToTable('#div_main_table', '#div_view_panel');" />
-                    <input type="submit" class="btn btn-success" value="Add">
+                    <div>
+                        <input type="button" value="Cancel" class="btn btn-outline-secondary waves-effect " onclick="BackToTable('#div_main_table', '#div_view_panel');" />
+                        <input type="submit" class="btn btn-success" value="Add">
+                    </div>
                 </div>
             </div>
+
+
         </form>
     </div>
 </div>

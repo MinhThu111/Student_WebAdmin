@@ -8,6 +8,24 @@ $(document).ready(function () {
     //Init table
     LoadDataTable();
 
+
+
+
+    $.ajax({
+        type: "GET",
+        url: "/Common/GetListDropdownProvince",
+        data: {
+   
+        },
+        dataType: 'json',
+        success: function (response) {
+            console.log(response.data);
+        },
+        error: function (er) {
+            console.log("Error >>>>>", er);
+        }
+    });
+
 });
 
 const buttonActionHtml = function (id, status, timer) {
@@ -85,11 +103,11 @@ const columnTable = function () {
             className: "text-nowrap"
         },
         {
-            data: "personTypeId",
+            data: "personTypeObj.Name",
             className: "text-nowrap"
         },
         {
-            data: "nationalityId",
+            data: "nationalityObj.Name",
             className: "text-nowrap"
         },
         {
@@ -182,6 +200,7 @@ function ShowAddModal(elm) {
             CheckResponseIsSuccess(response); return false;
         }
         ShowPanelWhenDone(response);
+        console.log(response);
         InitSubmitAddForm();
     }).fail(function (err) {
         $(elm).attr('disabled', false); $(elm).html(text);
@@ -350,4 +369,128 @@ function ChangeStatus(elm, e, id, timer) {
 function CheckNewRecordIsAcceptAddTable(data) {
     let condition = true; //place condition expression in here
     return condition;
+}
+
+function LoadProvince(elm, divElm, formElm) {
+    let value = $(elm).val();
+    let $provinceSelect = $(formElm).find('[name="addressObj.provinceId"]');
+    let $districtSelect = $(formElm).find('[name="addressObj.districtId"]');
+    let $wardSelect = $(formElm).find('[name="addressObj.wardId"]');
+
+    $districtSelect.html(FIRST_OPTION);
+    $districtSelect.val('0');
+
+    $wardSelect.html(FIRST_OPTION);
+    if (parseInt(value) === 0) {
+        $provinceSelect.html(FIRST_OPTION);
+        $provinceSelect.attr('disabled', true);
+        $districtSelect.html('');
+        $districtSelect.attr('disabled', true);
+        $wardSelect.html('');
+        $wardSelect.attr('disabled', true);
+    }
+    else {
+        ShowOverlay3Dot($(divElm));
+        $.ajax({
+            type: "GET",
+            url: "/Common/GetListDropdownProvince",
+            data: {
+                /*countryId: value*/
+            },
+            dataType: 'json',
+            success: function (response) {
+                HideOverlay3Dot($(divElm));
+                if (!CheckResponseIsSuccess(response)) return false;
+                let html = '';
+                $.map(response.data, function (item) {
+                    html += `<option value="${item.id}">${item.name}</option>`;
+                });
+                $provinceSelect.html(FIRST_OPTION + html);
+                $provinceSelect.attr('disabled', false);
+                $provinceSelect.val($provinceSelect.children('option:not(.bs-title-option)').eq(0).val());
+            },
+            error: function (err) {
+                HideOverlay3Dot($(divElm));
+                CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
+            }
+        });
+    }
+}
+function LoadDistrict(elm, divElm, formElm) {
+    let value = $(elm).val();
+    let $districtSelect = $(formElm).find('[name="addressObj.districtId"]');
+    let $wardSelect = $(formElm).find('[name="addressObj.wardId"]');
+
+    /*$wardSelect.html(FIRST_OPTION);*/
+    $wardSelect.val('0');
+    if (parseInt(value) === 0) {
+        $districtSelect.html('');
+        $districtSelect.attr('disabled', true);
+        $wardSelect.html('');
+        $wardSelect.attr('disabled', true);
+    } else {
+        /*ShowOverlay3Dot($(divElm));*/
+        $.ajax({
+            type: "GET",
+            url: "/Common/GetListDropdownDistrict",
+            data: {
+                provinceId: value
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+               /* HideOverlay3Dot($(divElm));*/
+                if (!CheckResponseIsSuccess(response)) return false;
+                let html = '';
+                $.map(response.data, function (item) {
+                    html += `<option value="${item.id}">${item.name}</option>`;
+                });
+                /*$districtSelect.html(FIRST_OPTION + html);*/
+                $districtSelect.html(html);
+                $districtSelect.attr('disabled', false);
+                $districtSelect.val($districtSelect.children('option:not(.bs-title-option)').eq(0).val());
+                $wardSelect.html('');
+                $wardSelect.attr('disabled', true);
+            },
+            error: function (err) {
+              /*  HideOverlay3Dot($(divElm));*/
+                CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
+            }
+        });
+    }
+}
+function LoadWard(elm, divElm, formElm) {
+    let value = $(elm).val();
+    let $wardSelect = $(formElm).find('[name="addressObj.wardId"]');
+    if (parseInt(value) === 0) {
+        $wardSelect.html('');
+        $wardSelect.attr('disabled', true);
+    } else {
+        //ShowOverlay3Dot($(divElm));
+        $.ajax({
+            type: "GET",
+            url: "/Common/GetListDropdownWard",
+            data: {
+                districtId: value
+            },
+            dataType: 'json',
+            success: function (response) {
+                /* HideOverlay3Dot($(divElm));*/
+                console.log(response);
+                if (!CheckResponseIsSuccess(response)) return false;
+                let html = '';
+                $.map(response.data, function (item) {
+                    html += `<option value="${item.id}">${item.name1}</option>`;
+                });
+               
+                $wardSelect.html(html);
+                $wardSelect.attr('disabled', false);
+                $wardSelect.val($wardSelect.children('option:not(.bs-title-option)').eq(0).val());
+            },
+            error: function (err) {
+                HideOverlay3Dot($(divElm));
+                CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
+            }
+        });
+    }
 }

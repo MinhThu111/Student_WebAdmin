@@ -18,9 +18,11 @@ namespace Student_WebAdmin.Services
     public class S_Person : IS_Person
     {
         private readonly ICallBaseApi _callApi;
-        public S_Person(ICallBaseApi callApi)
+        private readonly IS_Address _s_Address;
+        public S_Person(ICallBaseApi callApi, IS_Address s_Address)
         {
             _callApi = callApi;
+            _s_Address = s_Address;
         }
 
         public async Task<ResponseData<List<M_Person>>> getListPerson(string accessToken)
@@ -60,6 +62,10 @@ namespace Student_WebAdmin.Services
         }
         public async Task<ResponseData<M_Person>> Create(string accessToken, EM_Person model, string createdBy)
         {
+
+            var cAddress = await _s_Address.Create(accessToken, model.addressObj, createdBy);
+            model.addressId = cAddress.data.Id;
+
             Dictionary<string, dynamic> dictPars = new Dictionary<string, dynamic>
             {
                 {"firstName", model.firstName},
@@ -67,7 +73,7 @@ namespace Student_WebAdmin.Services
                 {"personTypeId",model.personTypeId },
                 { "birthDay", model.birthDay},
                 {"gender", model.gender},
-                {"nationalityId",model.nationalityId },
+                {"nationalityId",model.nationalityId }, 
                 {"religionId",model.religionId },
                 {"folkId",model.folkId },
                 {"addressId",model.addressId },
@@ -79,7 +85,31 @@ namespace Student_WebAdmin.Services
         }
         public async Task<ResponseData<M_Person>> Update(string accessToken, EM_Person model, string updatedBy)
         {
-           
+            var res = new ResponseData<M_Person>();
+            if (model.addressId != null && model.addressId != 0)
+            {
+                var resAddress = await _s_Address.Update(accessToken, model.addressObj, updatedBy);
+                if (resAddress.result != 1 || resAddress.data == null)
+                {
+                    res.result = resAddress.result;
+                    res.error = resAddress.error;
+                    return res;
+                }
+            }
+            else
+            {
+                var resAddress = await _s_Address.Create(accessToken, model.addressObj, updatedBy);
+                if (resAddress.result == 1 && resAddress.data != null)
+                    model.addressId = resAddress.data.Id;
+                else
+                {
+                    res.result = resAddress.result; 
+                    res.error = resAddress.error;
+                    return res;
+                }
+            }
+
+            
             Dictionary<string, dynamic> dictPars = new Dictionary<string, dynamic>
             {
                 {"id", model.id},
@@ -89,7 +119,7 @@ namespace Student_WebAdmin.Services
                 {"phoneNumber", model.phoneNumber},
                 {"status", model.status},
                 //{"updatedBy", updatedBy},
-                {"timer", DateTime.Now.ToString("O")},
+                {"timer", model.timer?.ToString("O")},
                 //{"timer",DateTime.Now.ToString("mm-dd-yyyy") },
                 {"addressId",model.addressId },
                 {"personId",model.personTypeId }

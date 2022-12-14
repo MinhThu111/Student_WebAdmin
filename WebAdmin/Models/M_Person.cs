@@ -17,17 +17,12 @@ namespace Student_WebAdmin.Models
         public int? folkId { get; set; }
         public int? addressId { get; set; }
         public string phoneNumber { get; set; }
-
-        [DataType(DataType.EmailAddress)]   
         public string email { get; set; }
         public string remark { get; set; }
-        //public int? status { get; set; }
-        //public DateTime? createdAt { get; set; }
-        //public int? createdBy { get; set; }
-        //public DateTime? updatedAt { get; set; }
-        //public int? updatedBy { get; set; }
-        //public DateTime? timer { get; set; }
-        //public BaseCustom baseObj { get; set; }
+        public M_Nationality nationalityObj { get; set; }
+        public M_PersonType personTypeObj { get; set; }
+
+
 
     }
     public class EM_Person:M_BaseModel.BaseCustom
@@ -50,13 +45,7 @@ namespace Student_WebAdmin.Models
         [DataType(DataType.EmailAddress)]
         public string email { get; set; }
         public string remark { get; set; }
-        //public int? status { get; set; }
-        //public DateTime? createdAt { get; set; }
-        //public int? createdBy { get; set; }
-        //public DateTime? updatedAt { get; set; }
-        //public int? updatedBy { get; set; }
-        //public DateTime? timer { get; set; }
-        //public BaseCustom baseObj { get; set; }
+        public EM_Address addressObj { get; set; }
 
     }
     public class VM_Person: M_BaseModel.BaseCustom
