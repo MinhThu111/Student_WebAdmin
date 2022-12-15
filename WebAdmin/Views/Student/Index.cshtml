@@ -1,12 +1,19 @@
-﻿@section Styles{
+﻿@{
+    ViewData["Title"] = "Student";
+}
+
+@section Styles{
     <partial name="_P_StylesTableAndFormBasic" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.uikit.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
 }
 @section Scripts{
     <partial name="_P_ScriptsTableAndFormBasic" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="~/assets/plugins/select2/js/select2.min.js"></script>
     <script src="~/controller/student_manage.js" asp-append-version="true"></script>
-    <script src="~/assets/libs/select2/js/select2.min.js"></script>
-    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
 }
 
 <div class="wrapper">
@@ -22,52 +29,42 @@
                         <div class="col-xl-3 col-lg-2 col-md-6 mb-1 px-1">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text">
-                                        <i class="material-icons">&#xf05e;</i>Trạng thái
+                                    <label class="input-group-text col-auto mb-1 px-1" for="select_search_status">
+                                        <i class="material-icons">&#xf023;</i>Trạng thái
                                     </label>
-                                    <select id="select_search_status" class="selectpicker show-tick form-control "
-                                            onchange="SearchStatus()" data-style="btn-white btn-sm"
-                                            data-live-search="false" data-size="2">
+                                    <select id="select_search_status" class="col-md-5 rounded mb-1 px-1"
+                                            onchange="SearchStatus()"
+                                            data-live-search="false">
                                         <option value="0,1">--Tất cả--</option>
                                         <option class="text-success" value="1">Mở</option>
                                         <option class="text-warning" value="0">Khóa</option>
                                     </select>
+                                    <div class="col-auto mb-1 px-1">
+                                        <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xE147;</i> <span>Add New Student</span></a>
+                                        <button class="btn btn-outline-dark" onclick="LoadDataTable()"><i class="material-icons">&#xe5d5;</i> <span>Load</span></button>
+                                    </div>
                                 </div>
+
 
                             </div>
                         </div>
-                        <div class="col-auto mb-1 px-1">
-                            <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xE147;</i> <span>Add New Student</span></a>
-                            <button class="btn btn-outline-dark" onclick="LoadDataTable()"><i class="material-icons">&#xe5d5;</i> <span>Load</span></button>
-                        </div>
                         <div class="table-responsive">
 
-                            <table class="table mb-0 w-100" id="table_main">
-                                <thead class="thead-dark">
-                                    <tr>
+                            <table class="table mb-0 w-100 uk-table uk-table-hover uk-table-striped uk-table-middle table-bordered" id="table_main">
+                                <thead>
+                                    <tr style="background-color: rgb(78, 173, 207)">
                                         <th>Stt</th>
-                                        <th>Name</th>
-                                        <th>Gender</th>
-                                        <th>Birthday</th>
-                                        <th>Email</th>
-                                        <th>Career</th>
-                                        <th>Nationality</th>
-                                        <th>Status</th>
-                                        <th>Acction</th>
+                                        <th>Họ và tên</th>
+                                        <th>Giới tính</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Địa chỉ Email</th>
+                                        <th>Nghề nghiệp</th>
+                                        <th>Quốc tịch</th>
+                                        <th>Trang thái</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
-                                <tfoot class="thead-dark">
-                                    <tr>
-                                        <th>Stt</th>
-                                        <th>Name</th>
-                                        <th>Gender</th>
-                                        <th>Birthday</th>
-                                        <th>Email</th>
-                                        <th>Career</th>
-                                        <th>Nationality</th>
-                                        <th>Status</th>
-                                        <th>Acction</th>
-                                    </tr>
+                                <tfoot>
                                 </tfoot>
                             </table>
                         </div>

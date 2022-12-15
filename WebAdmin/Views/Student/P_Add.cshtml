@@ -23,51 +23,41 @@
                         <input asp-for="birthDay" class="form-control">
                     </div>
                     <div class="form-group">
-                        <div class="form-control border-white">
-                            <label class="control-label">Gender</label>
+                        <label class="control-label">Gender</label>
+                        <div class="pretty p-icon p-round">
                             <input asp-for="gender" type="radio" value="0" />
-                            <label asp-for="gender">Male</label>
-                            <input asp-for="gender" type="radio" value="1" />
-                            <label asp-for="gender">Female</label>
+                            <div class="state p-primary-o">
+                                <i class="icon mdi mdi-check"></i>
+                                <label asp-for="gender">Male</label>
+                            </div>
+                        </div>
+                        <div class="pretty p-icon p-round">
+                            <input asp-for="gender" type="radio" value="0" />
+                            <div class="state p-primary-o">
+                                <i class="icon mdi mdi-check"></i>
+                                <label asp-for="gender">Female</label>
+                            </div>
                         </div>
                     </div>
+                    
 
                     <div class="form-group">
                         <label class="control-label">Person Type</label>
-                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class=" form-control">
-                            <option value="">Person Type</option>
+                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class="form-control select2" style="width:100%">
+                            <option value="0">--Chọn--</option>
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Person Type</label>
-                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class=" form-control">
-                            <option value="">Person Type</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label">Person Type</label>
-                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class=" form-control">
-                            <option value="">Person Type</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Nationality</label>
-                        <select asp-for="nationalityId" asp-items="ViewBag.NationalityId" class=" form-control">
-                            <option value="">Nationality</option>
-                        </select>
-                    </div>
                     <div class="form-group">
                         <label class="control-label">Religion</label>
-                        <select asp-for="religionId" asp-items=" ViewBag.ReligionId" class=" form-control">
-                            <option value="">Religion</option>
+                        <select asp-for="religionId" asp-items=" ViewBag.ReligionId" class="form-control select2" style="width:100%">
+                            <option value="0">--Chọn--</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Folk</label>
-                        <select asp-for="folkId" asp-items="ViewBag.FolkId" id="calc_shipping_folk" class=" form-control">
-                            <option value="">Folk</option>
+                        <select asp-for="folkId" asp-items="ViewBag.FolkId" class="form-control select2" style="width:100%">
+                            <option value="0">--Chọn--</option>
                         </select>
                     </div>
                 </div>
@@ -77,7 +67,7 @@
                         <span class="has-float-label">
                             <label asp-for="addressObj.provinceId">Tỉnh - Thành phố</label>
                             <select asp-for="addressObj.provinceId" asp-items="ViewBag.ProvinceId"
-                                    class="select2 form-control" onchange="LoadDistrict(this, '#div_form_district', '#form_data')">
+                                    class="select2 form-control" style="width:100%" onchange="LoadDistrict(this, '#div_form_district', '#form_data')">
                                 <option value="0" >--Chọn--</option>
                             </select>
                         </span>
@@ -87,7 +77,7 @@
                         <span class="has-float-label">
                             <label asp-for="addressObj.districtId">Quận - Huyện</label>
                             <select asp-for="addressObj.districtId" asp-items="ViewBag.DistrictId"
-                                    class="select2 form-control" onchange="LoadWard(this, '#div_form_ward', '#form_data')">
+                                    class="form-control select2 " onchange="LoadWard(this, '#div_form_ward', '#form_data')"  style="width:100%">
                                 <option value="0" >--Chọn--</option>
                             </select>
                         </span>
@@ -96,11 +86,10 @@
                     <div class="form-group" id="div_form_ward">
                         <span class="has-float-label">
                             <label asp-for="addressObj.wardId">Phường - Xã</label>
-                            <select asp-for="addressObj.wardId" asp-items="ViewBag.WardId" class="select2 form-control">
+                            <select asp-for="addressObj.wardId" asp-items="ViewBag.WardId" class="select2 form-control" style="width:100%">
                                 <option value="0" >--Chọn--</option>
                             </select>
                         </span>
-                        <span asp-validation-for="addressObj.wardId" class="invalid-feedback"></span>
                     </div>
                     <div class="form-group">
                         <span class="has-float-label">

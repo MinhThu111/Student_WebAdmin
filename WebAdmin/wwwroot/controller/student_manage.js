@@ -8,27 +8,33 @@ $(document).ready(function () {
     //Init table
     LoadDataTable();
 
-
-
-
 });
 
 const buttonActionHtml = function (id, status, timer) {
     let html = ``;
-    html += `<a href="#editEmployeeModal" class="edit" onclick="ShowEditModal(this,${id})" title="${_buttonResource.Edit}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>`;
-    html += `<a href="#deleteEmployeeModal" class="delete" onclick="Delete(${id})" title="${_buttonResource.Delete}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>`;
-    if (parseInt(status) != -1)
-        html += `<label class="switch">
-                      <input type="checkbox" id="status_${id}" ${parseInt(status) == 0 ? "" : "checked"} onclick="ChangeStatus(this, event, '${id}', '${timer}')">
-                      <label class="slider round" for="status_${id}"></label>
-                  </label>`;
+  /*  html += `<a href="#editEmployeeModal" class="edit" onclick="ShowEditModal(this,${id})" title="${_buttonResource.Edit}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>`;*/
+    html += `<button type="button" class="btn btn-sm btn-outline-secondary" onclick="ShowEditModal(this,${id})" title="${_buttonResource.Edit}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>`
+    html += `<button type="button" class="btn btn-sm btn-outline-secondary" onclick="Delete(${id})" title="${_buttonResource.Delete}" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button> 
+`
+    //html += `<a href="#deleteEmployeeModal" class="delete" onclick="Delete(${id})" title="${_buttonResource.Delete}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>`;
+    //if (parseInt(status) != -1)
+        
+    //    html += `<button type="button" class="btn btn-sm btn-outline-secondary text-info" id="status_${id}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" title="Mở khóa"><i class="lni lni-unlock"></i></button> `;
+
+    if (parseInt(status) != -1) {
+        switch (parseInt(status)) {
+            case 0: html += `<button type="button" class="btn btn-sm btn-outline-warning text-warning" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-lock"></i></button>`; break;
+            case 1: html += `<button type="button" class="btn btn-sm btn-outline-secondary text-info" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-unlock"></i></button>`; break;
+            default: break;
+        }
+    }
     return html;
 }
 const statusHtml = function (status) {
     let html = '';
     switch (parseInt(status)) {
-        case 0: html = `<span class="badge badge-warning" style="color:red">${_textOhterResource.lock}</span>`; break;
-        case 1: html = `<span class="badge badge-success" style="color:blue">${_textOhterResource.active}</span>`; break;
+        case 0: html = `<span class="badge " style="color:red">${_textOhterResource.lock}</span>`; break;
+        case 1: html = `<span class="badge" style="color:blue">${_textOhterResource.active}</span>`; break;
         default: break;
     }
     return html;
@@ -68,46 +74,47 @@ const columnTable = function () {
             title: "STT",
             data: null,
             render: (data, type, row, meta) => ++meta.row,
-            className: "text-center"
+            className: "text-center font-weight-normal text-dark"
         },
         {
             data: "id",
-            render: (data, type, row, meta) => `<a class="table_a_href" onclick="ShowViewModal(this, '${row.id}')" href="javascript:void(0);">${row.lastName} ${row.firstName}</a>`,
+            render: (data, type, row, meta) => `<a class="text-dark font-weight-normal" onclick="ShowViewModal(this, '${row.id}')" href="javascript:void(0);">${row.lastName} ${row.firstName}</a>`,
+            className: "text-nowrap text-dark font-weight-normal"
         },
         {
             data: "gender",
             render: (data) => data == '0' ? 'Male' : 'Female',
-            className: "text-nowrap"
+            className: "text-nowrap text-dark font-weight-normal"
         },
         {
             data: "birthDay",
             render: (data) => new Date(data).toLocaleDateString(),
-            className: "text-center text-nowrap",
+            className: "text-nowrap text-dark font-weight-normal",
         },
         {
             data: "email",
-            className: "text-nowrap"
+            className: "text-nowrap text-dark font-weight-normal"
         },
         {
             data: "personTypeObj.name",
-            className: "text-nowrap"
+            className: "text-nowrap text-dark font-weight-normal"
         },
         {
             data: "nationalityObj.name",
-            className: "text-nowrap"
+            className: "text-nowrap text-dark font-weight-normal"
         },
 
         {
             data: "status",
             render: (data, type, row, meta) => statusHtml(data),
-            className: "text-center text-nowrap",
+            className: "text-center text-dark font-weight-normal",
         },
         {
             data: "id",
             render: (data, type, row, meta) => buttonActionHtml(data, row.status, row.timer),
             orderable: false,
             searchable: false,
-            className: "text-center text-nowrap"
+            className: "text-center "
         }
     ];
 }
@@ -122,7 +129,8 @@ function LoadDataTable(method = 'GET') {
         lengthMenu: _lengthMenuResource,
         colReorder: { allowReorder: false },
         select: false,
-        scrollX: true,
+        scrollY: '300px',
+        scrollCollapse: true,
         stateSave: false,
         processing: true,
         responsive: { details: true },
@@ -140,28 +148,6 @@ function LoadDataTable(method = 'GET') {
 //Search 
 function SearchStatus() {
     LoadDataTable();
-    //if ($selectSearchStatus.val() === '1' || $selectSearchStatus.val() === '0') {
-    //    dataTable.columns('#status').search($selectSearchStatus.val() === '1' ? 'Mở' : 'Khóa').draw();
-    //}
-    //else {
-    //    dataTable.columns('#status').search('',true, false).draw();
-    /*     dataTable.draw();*/
-    //console.log('true');
-
-
-    //}
-
-
-}
-function SearchGender() {
-    LoadDataTable();
-    //if ($selectSearchGender.val() === '1' || $selectSearchGender.val() === '0') {
-    //    dataTable.columns('#gender').search($selectSearchGender.val() === '1' ? 'Nữ' : 'Nam').draw();
-    //}
-    //else {
-    //    //console.log('falses');
-    //    dataTable.columns('#gender').search('', true,false).draw();
-    //}           
 }
 
 //Show panel when done
@@ -187,6 +173,7 @@ function ShowAddModal(elm) {
             CheckResponseIsSuccess(response); return false;
         }
         ShowPanelWhenDone(response);
+        $(".select2").select2();
         console.log(response);
         InitSubmitAddForm();
     }).fail(function (err) {
@@ -326,12 +313,14 @@ function ChangeStatus(elm, e, id, timer) {
         $(elm).attr('onclick', "event.preventDefault();");
         $('#status_' + id).parent().find('label.btn-active').attr('onclick', 'event.preventDefault()');
         var isChecked = $('#status_' + id).is(":checked");
+        var _status = $(elm).attr('id');
         $.ajax({
             type: 'POST',
             url: '/Student/ChangeStatus',
             data: {
                 id: id,
-                status: isChecked ? 1 : 0,
+                //status: isChecked ? 1 : 0,
+                status: _status == 1 ? 0 : 1  ,
                 timer: timer
             },
             dataType: 'json',
@@ -363,6 +352,7 @@ function LoadProvince(elm, divElm, formElm) {
     let $provinceSelect = $(formElm).find('[name="addressObj.provinceId"]');
     let $districtSelect = $(formElm).find('[name="addressObj.districtId"]');
     let $wardSelect = $(formElm).find('[name="addressObj.wardId"]');
+
 
     $districtSelect.html(FIRST_OPTION);
     $districtSelect.val('0');
@@ -426,7 +416,7 @@ function LoadDistrict(elm, divElm, formElm) {
             dataType: 'json',
             success: function (response) {
                 console.log(response);
-               /* HideOverlay3Dot($(divElm));*/
+                /* HideOverlay3Dot($(divElm));*/
                 if (!CheckResponseIsSuccess(response)) return false;
                 let html = '';
                 $.map(response.data, function (item) {
@@ -440,7 +430,7 @@ function LoadDistrict(elm, divElm, formElm) {
                 $wardSelect.attr('disabled', true);
             },
             error: function (err) {
-              /*  HideOverlay3Dot($(divElm));*/
+                /*  HideOverlay3Dot($(divElm));*/
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
             }
         });
@@ -469,7 +459,7 @@ function LoadWard(elm, divElm, formElm) {
                 $.map(response.data, function (item) {
                     html += `<option value="${item.id}">${item.name1}</option>`;
                 });
-               
+
                 $wardSelect.html(html);
                 $wardSelect.attr('disabled', false);
                 $wardSelect.val($wardSelect.children('option:not(.bs-title-option)').eq(0).val());
