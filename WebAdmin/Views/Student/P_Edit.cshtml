@@ -62,9 +62,32 @@ s<div class="card radius-15">
                             <option value="">Folk</option>
                         </select>
                     </div>
+<<<<<<< HEAD
                     <div class="form-group ">
                         <label class="control-label">Address</label>
                         <input asp-for="addressId" class="form-control" placeholder="Address">
+                        
+=======
+                    <div class="form-group" id="div_form_province">
+                        <span class="has-float-label">
+                            <label asp-for="addressObj.provinceId">Tỉnh - Thành phố</label>
+                            <select asp-for="addressObj.provinceId" asp-items="ViewBag.ProvinceId"
+                                    class="select2 form-control" onchange="LoadDistrict(this, '#div_form_district', '#form_data')">
+                                <option value="0">--Chọn--</option>
+                            </select>
+                        </span>
+                        <span asp-validation-for="addressObj.provinceId" class="invalid-feedback"></span>
+>>>>>>> feature/student_manage
+                    </div>
+                    <div class="form-group" id="div_form_district">
+                        <span class="has-float-label">
+                            <label asp-for="addressObj.districtId">Quận - Huyện</label>
+                            <select asp-for="addressObj.districtId" asp-items="ViewBag.DistrictId"
+                                    class="select2 form-control" onchange="LoadWard(this, '#div_form_ward', '#form_data')">
+                                <option value="0">--Chọn--</option>
+                            </select>
+                        </span>
+                        <span asp-validation-for="addressObj.districtId" class="invalid-feedback"></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Phone Number</label>

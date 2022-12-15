@@ -29,6 +29,7 @@ namespace Student_WebAdmin.Controllers
                         firstName = "Admin",
                         lastName = "01",
                         avatar = "/img/avatar.jpg",
+                        email="123@gmail.com"
                     }
                 };
             }
@@ -49,6 +50,7 @@ namespace Student_WebAdmin.Controllers
                 avatar = IsNullOrEmpty(res.data.personObj?.avatar) ? "https://www.shutterstock.com/image-vector/avatar-vector-male-profile-gray-260nw-538707355.jpg" : res.data.personObj?.avatar,
                 accessToken = res.data.accessToken,
                 stayLoggedIn = model.stayLoggedIn,
+                email=res.data.personObj.email
             };
             SecurityManager.SignIn(this.HttpContext, accountSec, CookieAuthenticationDefaults.AuthenticationScheme);
             return res;

@@ -111,7 +111,7 @@ namespace Student_WebAdmin.Controllers
         [HttpPost]//ok
         public async Task<JsonResult> Delete(int id)
         {
-            var res = await _s_person.Delete(_accessToken, id);
+            var res = await _s_person.Delete(_accessToken, id,_userId);
             return Json(new M_JResult(res));
         }
 

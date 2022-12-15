@@ -12,7 +12,7 @@ namespace Student_WebAdmin.Services
         Task<ResponseData<M_Person>> getPersonById(string accessToken, int id);
         Task<ResponseData<M_Person>> Create(string accessToken, EM_Person model, string createdBy);
         Task<ResponseData<M_Person>> Update(string accessToken, EM_Person model, string updatedBy);
-        Task<ResponseData<M_Person>> Delete(string accessToken, int id);
+        Task<ResponseData<M_Person>> Delete(string accessToken, int id, string updatedBy);
         Task<ResponseData<M_Person>> UpdateStatus(string accessToken, int id, int status, DateTime? timer, string updatedBy);
     }
     public class S_Person : IS_Person
@@ -96,11 +96,12 @@ namespace Student_WebAdmin.Services
             };
             return await _callApi.PutResponseDataAsync<M_Person>("/Person/Update", dictPars, accessToken);
         }
-        public async Task<ResponseData<M_Person>> Delete(string accessToken, int id)
+        public async Task<ResponseData<M_Person>> Delete(string accessToken, int id, string updatedBy)
         {
             Dictionary<string, dynamic> dictPars = new Dictionary<string, dynamic>
             {
                 {"id", id},
+                {"updatedBy", updatedBy},
             };
             return await _callApi.DeleteResponseDataAsync<M_Person>("/Person/Delete", dictPars, accessToken);
         }
