@@ -88,9 +88,8 @@ namespace Student_WebAdmin.Services
                 {"gender", model.gender},
                 {"phoneNumber", model.phoneNumber},
                 {"status", model.status},
-                //{"updatedBy", updatedBy},
-                {"timer", DateTime.Now.ToString("O")},
-                //{"timer",DateTime.Now.ToString("mm-dd-yyyy") },
+                {"updatedBy", updatedBy},
+                {"timer", model.timer?.ToString("O")},
                 {"addressId",model.addressId },
                 {"personId",model.personTypeId }
             };
