@@ -45,6 +45,13 @@
                             <option value="">Person Type</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Person Type</label>
+                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class=" form-control">
+                            <option value="">Person Type</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label class="control-label">Nationality</label>
                         <select asp-for="nationalityId" asp-items="ViewBag.NationalityId" class=" form-control">
