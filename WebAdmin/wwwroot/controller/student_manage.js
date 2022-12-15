@@ -11,21 +11,6 @@ $(document).ready(function () {
 
 
 
-    $.ajax({
-        type: "GET",
-        url: "/Common/GetListDropdownProvince",
-        data: {
-   
-        },
-        dataType: 'json',
-        success: function (response) {
-            console.log(response.data);
-        },
-        error: function (er) {
-            console.log("Error >>>>>", er);
-        }
-    });
-
 });
 
 const buttonActionHtml = function (id, status, timer) {
@@ -64,6 +49,7 @@ const dataParamsTable = function (method = 'GET') {
         },
         dataSrc: function (response) {
             //laddaSearch.stop();
+            console.log(response.data);
             if (CheckResponseIsSuccess(response) && response.data != null)
                 return response.data;
             return [];
@@ -102,21 +88,12 @@ const columnTable = function () {
             data: "email",
             className: "text-nowrap"
         },
-<<<<<<< HEAD
-        //{
-        //    data: "personTypeId",
-        //    className: "text-nowrap"
-        //},
-        //{
-        //    data: "nationalityId",
-        //    className: "text-nowrap"
-        //},
         {
-            data: "personTypeObj.Name",
+            data: "personTypeObj.name",
             className: "text-nowrap"
         },
         {
-            data: "nationalityObj.Name",
+            data: "nationalityObj.name",
             className: "text-nowrap"
         },
 

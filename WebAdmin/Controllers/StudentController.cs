@@ -41,8 +41,7 @@ namespace Student_WebAdmin.Controllers
         [HttpGet]//ok
         public async Task<JsonResult> GetList(string status)
         {
-            //var res = await _s_person.getListPersonBySequenceStatus(_accessToken, status);
-            var res = await _s_person.getPersonById(_accessToken, 27);
+            var res = await _s_person.getListPersonBySequenceStatus(_accessToken,status);
 
             return Json(new M_JResult(res));
         }
@@ -50,7 +49,7 @@ namespace Student_WebAdmin.Controllers
         [HttpGet]
         public async Task<JsonResult> P_View(int id)
         {
-            var res = await _s_person.getPersonById(_accessToken, id);
+            var res = await _s_person.getPersonById(_accessToken,id);
             return Json(new M_JResult(res));
         }
 
