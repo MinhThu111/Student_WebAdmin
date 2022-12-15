@@ -87,6 +87,7 @@ builder.Services.AddScoped<IS_PersonType, S_PersonType>();
 builder.Services.AddScoped<IS_Nationality, S_Nationality>();
 builder.Services.AddScoped<IS_Religion, S_Religion>();
 builder.Services.AddScoped<IS_Folk, S_Folk>();
+builder.Services.AddScoped<IS_Address, S_Address>();
 
 
 var app = builder.Build();
@@ -160,7 +161,7 @@ app.UseEndpoints(endpoints =>
         defaults: new { controller = "Error", action = "Index" });
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Account}/{action=UserProfile}/{id?}");
+        pattern: "{controller=Student}/{action=Index}/{id?}");
 });
 
 app.Run();

@@ -6,6 +6,7 @@ using Student_WebAdmin.Services;
 using Student_WebAdmin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net.WebSockets;
 
 namespace Student_WebAdmin.Controllers
 {
@@ -19,8 +20,9 @@ namespace Student_WebAdmin.Controllers
         private readonly IS_Folk _s_folk;
         private readonly IS_Religion _s_religion;
         private readonly IMapper _mapper;
+        private readonly IS_Address _s_address;
 
-        public StudentController(IS_Person person, IS_Nationality nationality, IS_PersonType persontype, IS_Folk folk, IS_Religion religion, IMapper mapper)
+        public StudentController(IS_Person person, IS_Nationality nationality, IS_PersonType persontype, IS_Folk folk, IS_Religion religion, IMapper mapper, IS_Address s_address)
         {
             _s_person = person;
             _s_nationality = nationality;
@@ -28,19 +30,18 @@ namespace Student_WebAdmin.Controllers
             _s_folk = folk;
             _s_religion = religion;
             _mapper = mapper;
+            _s_address = s_address;
         }
 
         public IActionResult Index()
         {
-            ViewBag.Mouse = SessionExtensionMethod.GetObject<string>(HttpContext.Session, "Mouse1");
-            ViewBag.Mouse2 = CookieHandleExtensionMethod.Get(HttpContext, "Mouse");
             return View();
         }
 
         [HttpGet]//ok
         public async Task<JsonResult> GetList(string status)
         {
-            var res = await _s_person.getListPerson(_accessToken);
+            var res = await _s_person.getListPersonBySequenceStatus(_accessToken,status);
 
             return Json(new M_JResult(res));
         }
@@ -48,7 +49,7 @@ namespace Student_WebAdmin.Controllers
         [HttpGet]
         public async Task<JsonResult> P_View(int id)
         {
-            var res = await _s_person.getPersonById(_accessToken, id);
+            var res = await _s_person.getPersonById(_accessToken,id);
             return Json(new M_JResult(res));
         }
 
@@ -56,13 +57,13 @@ namespace Student_WebAdmin.Controllers
         [HttpGet]//ok
         public async Task<IActionResult> P_Add()
         {
-            SessionExtensionMethod.SetObject<string>(HttpContext.Session, "Mouse1", "200,000d");
-            CookieHandleExtensionMethod.AddOrUpdate(HttpContext, "Mouse", "300,000d", DateTime.Now.AddSeconds(10));
             Task task1 = SetDropDownNationality(),
             task2 = SetDropDownPersonType(),
             task3 = SetDropDownFolk(),
-            task4 = SetDropDownReligion();
-            await Task.WhenAll(task1, task2, task3, task4);
+            task4 = SetDropDownReligion(),
+            task5 = SetDropDownListProvince();
+
+            await Task.WhenAll(task1, task2, task3, task4, task5);
             return PartialView();
         }
 
@@ -76,7 +77,6 @@ namespace Student_WebAdmin.Controllers
                 return Json(jResult);
             }
             var res = await _s_person.Create(_accessToken, model, _userId);
-
             return Json(jResult.MapData(res));
         }
 
@@ -92,8 +92,9 @@ namespace Student_WebAdmin.Controllers
             Task task1 = SetDropDownNationality(model.nationalityId),
             task2 = SetDropDownPersonType(model.personTypeId),
             task3 = SetDropDownFolk(model.folkId),
-            task4 = SetDropDownReligion(model.religionId);
-            await Task.WhenAll(task1, task2, task3, task4);
+            task4 = SetDropDownReligion(model.religionId), 
+            task5 = SetDropDownListProvince(model.addressId);
+            await Task.WhenAll(task1, task2, task3, task4,task5);
             return PartialView(model);
         }
 
@@ -115,7 +116,7 @@ namespace Student_WebAdmin.Controllers
         [HttpPost]//ok
         public async Task<JsonResult> Delete(int id)
         {
-            var res = await _s_person.Delete(_accessToken, id);
+            var res = await _s_person.Delete(_accessToken, id,_userId);
             return Json(new M_JResult(res));
         }
 
@@ -158,7 +159,10 @@ namespace Student_WebAdmin.Controllers
                 result = _mapper.Map<List<VM_SelectDropDown>>(res.data);
             ViewBag.ReligionId = new SelectList(result, "Id", "Name", selectedId);
         }
-       
+
+
+
+
 
     }
 }

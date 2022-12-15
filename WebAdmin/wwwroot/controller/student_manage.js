@@ -2,12 +2,14 @@
 var dataTable;
 var $tableMain = $('#table_main');
 var $selectSearchStatus = $('#select_search_status');
-var $selectSearchGender = $('#select_search_gender');
 
 $(document).ready(function () {
 
     //Init table
     LoadDataTable();
+
+
+
 
 });
 
@@ -38,8 +40,7 @@ const dataParamsTable = function (method = 'GET') {
         type: method,
         url: '/Student/GetList',
         data: function (d) {
-            //d.status = $selectSearchStatus.val();
-            //d.gender = $selectSearchGender.val();
+            d.status = $selectSearchStatus.val();
             //console.log(d.status);
         },
         dataType: 'json',
@@ -48,6 +49,7 @@ const dataParamsTable = function (method = 'GET') {
         },
         dataSrc: function (response) {
             //laddaSearch.stop();
+            console.log(response.data);
             if (CheckResponseIsSuccess(response) && response.data != null)
                 return response.data;
             return [];
@@ -73,12 +75,28 @@ const columnTable = function () {
             render: (data, type, row, meta) => `<a class="table_a_href" onclick="ShowViewModal(this, '${row.id}')" href="javascript:void(0);">${row.lastName} ${row.firstName}</a>`,
         },
         {
-            data: "birthday",
-            render: function (data, type, row, meta) {
-                return data === 1 ? 'Nữ' : 'Nam';
-            },
-            className: "text-nowrap",
+            data: "gender",
+            render: (data) => data == '0' ? 'Male' : 'Female',
+            className: "text-nowrap"
         },
+        {
+            data: "birthDay",
+            render: (data) => new Date(data).toLocaleDateString(),
+            className: "text-center text-nowrap",
+        },
+        {
+            data: "email",
+            className: "text-nowrap"
+        },
+        {
+            data: "personTypeObj.name",
+            className: "text-nowrap"
+        },
+        {
+            data: "nationalityObj.name",
+            className: "text-nowrap"
+        },
+
         {
             data: "status",
             render: (data, type, row, meta) => statusHtml(data),
@@ -99,7 +117,7 @@ function LoadDataTable(method = 'GET') {
     console.log("hello");
     if (dataTable) dataTable.ajax.reload(null, true);
     dataTable = $tableMain.DataTable({
-        search:false,
+        search: false,
         lengthChange: true,
         lengthMenu: _lengthMenuResource,
         colReorder: { allowReorder: false },
@@ -169,6 +187,7 @@ function ShowAddModal(elm) {
             CheckResponseIsSuccess(response); return false;
         }
         ShowPanelWhenDone(response);
+        console.log(response);
         InitSubmitAddForm();
     }).fail(function (err) {
         $(elm).attr('disabled', false); $(elm).html(text);
@@ -289,7 +308,7 @@ function InitSubmitEditForm() {
                 BackToTable('#div_main_table', '#div_view_panel');
                 ChangeUIEdit(dataTable, response.data.id, response.data);
             }, error: function (err) {
-                laddaSubmitForm.stop();
+                //laddaSubmitForm.stop();
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
             }
         });
@@ -339,7 +358,126 @@ function CheckNewRecordIsAcceptAddTable(data) {
     return condition;
 }
 
-//reload
-function Reload() {
-    dataTable.ajax.reload(null, false);
+function LoadProvince(elm, divElm, formElm) {
+    let value = $(elm).val();
+    let $provinceSelect = $(formElm).find('[name="addressObj.provinceId"]');
+    let $districtSelect = $(formElm).find('[name="addressObj.districtId"]');
+    let $wardSelect = $(formElm).find('[name="addressObj.wardId"]');
+
+    $districtSelect.html(FIRST_OPTION);
+    $districtSelect.val('0');
+
+    $wardSelect.html(FIRST_OPTION);
+    if (parseInt(value) === 0) {
+        $provinceSelect.html(FIRST_OPTION);
+        $provinceSelect.attr('disabled', true);
+        $districtSelect.html('');
+        $districtSelect.attr('disabled', true);
+        $wardSelect.html('');
+        $wardSelect.attr('disabled', true);
+    }
+    else {
+        ShowOverlay3Dot($(divElm));
+        $.ajax({
+            type: "GET",
+            url: "/Common/GetListDropdownProvince",
+            data: {
+                /*countryId: value*/
+            },
+            dataType: 'json',
+            success: function (response) {
+                HideOverlay3Dot($(divElm));
+                if (!CheckResponseIsSuccess(response)) return false;
+                let html = '';
+                $.map(response.data, function (item) {
+                    html += `<option value="${item.id}">${item.name}</option>`;
+                });
+                $provinceSelect.html(FIRST_OPTION + html);
+                $provinceSelect.attr('disabled', false);
+                $provinceSelect.val($provinceSelect.children('option:not(.bs-title-option)').eq(0).val());
+            },
+            error: function (err) {
+                HideOverlay3Dot($(divElm));
+                CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
+            }
+        });
+    }
+}
+function LoadDistrict(elm, divElm, formElm) {
+    let value = $(elm).val();
+    let $districtSelect = $(formElm).find('[name="addressObj.districtId"]');
+    let $wardSelect = $(formElm).find('[name="addressObj.wardId"]');
+
+    /*$wardSelect.html(FIRST_OPTION);*/
+    $wardSelect.val('0');
+    if (parseInt(value) === 0) {
+        $districtSelect.html('');
+        $districtSelect.attr('disabled', true);
+        $wardSelect.html('');
+        $wardSelect.attr('disabled', true);
+    } else {
+        /*ShowOverlay3Dot($(divElm));*/
+        $.ajax({
+            type: "GET",
+            url: "/Common/GetListDropdownDistrict",
+            data: {
+                provinceId: value
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+               /* HideOverlay3Dot($(divElm));*/
+                if (!CheckResponseIsSuccess(response)) return false;
+                let html = '';
+                $.map(response.data, function (item) {
+                    html += `<option value="${item.id}">${item.name}</option>`;
+                });
+                /*$districtSelect.html(FIRST_OPTION + html);*/
+                $districtSelect.html(html);
+                $districtSelect.attr('disabled', false);
+                $districtSelect.val($districtSelect.children('option:not(.bs-title-option)').eq(0).val());
+                $wardSelect.html('');
+                $wardSelect.attr('disabled', true);
+            },
+            error: function (err) {
+              /*  HideOverlay3Dot($(divElm));*/
+                CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
+            }
+        });
+    }
+}
+function LoadWard(elm, divElm, formElm) {
+    let value = $(elm).val();
+    let $wardSelect = $(formElm).find('[name="addressObj.wardId"]');
+    if (parseInt(value) === 0) {
+        $wardSelect.html('');
+        $wardSelect.attr('disabled', true);
+    } else {
+        //ShowOverlay3Dot($(divElm));
+        $.ajax({
+            type: "GET",
+            url: "/Common/GetListDropdownWard",
+            data: {
+                districtId: value
+            },
+            dataType: 'json',
+            success: function (response) {
+                /* HideOverlay3Dot($(divElm));*/
+                console.log(response);
+                if (!CheckResponseIsSuccess(response)) return false;
+                let html = '';
+                $.map(response.data, function (item) {
+                    html += `<option value="${item.id}">${item.name1}</option>`;
+                });
+               
+                $wardSelect.html(html);
+                $wardSelect.attr('disabled', false);
+                $wardSelect.val($wardSelect.children('option:not(.bs-title-option)').eq(0).val());
+            },
+            error: function (err) {
+                HideOverlay3Dot($(divElm));
+                CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
+            }
+        });
+    }
 }

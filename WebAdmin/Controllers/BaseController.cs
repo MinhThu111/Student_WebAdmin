@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.String;
+using AutoMapper;
 
 namespace Student_WebAdmin.Controllers
 {
@@ -14,7 +15,10 @@ namespace Student_WebAdmin.Controllers
         private string supplierId = Empty;
         private string accessToken = Empty;
         private string userId = Empty;
+        private IMapper mapper;
 
+        protected IMapper _mapper => mapper ?? (mapper = HttpContext?.RequestServices.GetService<IMapper>());
+        
         protected IHttpContextAccessor _httpContextAccessor => httpContextAccessor ?? (httpContextAccessor = HttpContext?.RequestServices.GetService<IHttpContextAccessor>());
 
         protected string _accessToken => IsNullOrEmpty(accessToken) ? (accessToken = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "AccessToken")?.Value) : accessToken;
@@ -24,15 +28,23 @@ namespace Student_WebAdmin.Controllers
         protected string _supplierId => IsNullOrEmpty(supplierId) ? (supplierId = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value) : supplierId;
 
 
-        //protected async Task SetDropDownListCountry(string selectedId = "0")
+        //protected async Task SetDropDownListProvince(string selectedId = "0")
         //{
         //    List<VM_SelectDropDown> result = new List<VM_SelectDropDown>();
-        //    //var res = await HttpContext?.RequestServices.GetService<IS_Address>().getListCountry<List<M_Country>>();
-        //    //if (res.result == 1 && res.data != null)
-        //    //    result = _mapper.Map<List<VM_SelectDropDown>>(res.data);
-        //    ViewBag.CountryId = new SelectList(result, "Id", "Name", selectedId);
+        //    var res = await HttpContext?.RequestServices.GetService<IS_Address>().getListProvinceByStatusCountryId(_accessToken);
+        //    if (res.result == 1 && res.data != null)
+        //        result = _mapper.Map<List<VM_SelectDropDown>>(res.data);
+        //    ViewBag.ProvinceId = new SelectList(result, "Id", "Name", selectedId);
         //}
-    
+
+        protected async Task SetDropDownListProvince(int? selectedId = 0)
+        {
+            List<VM_SelectDropDown> result = new List<VM_SelectDropDown>();
+            var res = await HttpContext?.RequestServices.GetService<IS_Address>().getListProvinceByStatusCountryId(_accessToken);
+            if (res.result == 1 && res.data != null)
+                result = _mapper.Map<List<VM_SelectDropDown>>(res.data);
+            ViewBag.ProvinceId = new SelectList(result, "Id", "Name", selectedId);
+        }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {

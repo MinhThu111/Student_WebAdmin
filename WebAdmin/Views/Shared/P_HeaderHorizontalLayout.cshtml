@@ -9,6 +9,7 @@
             fullName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name)?.Value,
             avatar = User.Claims.FirstOrDefault(c => c.Type == "Avatar")?.Value,
             roles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Select(x => x.Value).ToList(),
+            
         };
     }
 }

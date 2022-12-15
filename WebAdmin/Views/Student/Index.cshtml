@@ -5,6 +5,8 @@
     <partial name="_P_ScriptsTableAndFormBasic" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="~/controller/student_manage.js" asp-append-version="true"></script>
+    <script src="~/assets/libs/select2/js/select2.min.js"></script>
+    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
 }
 
 <div class="wrapper">
@@ -15,16 +17,41 @@
                     <div class="card-body">
                         <div class="card-title">
                             <h5 class="mb-0">Manage Student </h5>
-                            <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xE147;</i> <span>Add New Student</span></a>
                         </div>
                         <hr />
+                        <div class="col-xl-3 col-lg-2 col-md-6 mb-1 px-1">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">
+                                        <i class="material-icons">&#xf05e;</i>Trạng thái
+                                    </label>
+                                    <select id="select_search_status" class="selectpicker show-tick form-control "
+                                            onchange="SearchStatus()" data-style="btn-white btn-sm"
+                                            data-live-search="false" data-size="2">
+                                        <option value="0,1">--Tất cả--</option>
+                                        <option class="text-success" value="1">Mở</option>
+                                        <option class="text-warning" value="0">Khóa</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-auto mb-1 px-1">
+                            <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xE147;</i> <span>Add New Student</span></a>
+                            <button class="btn btn-outline-dark" onclick="LoadDataTable()"><i class="material-icons">&#xe5d5;</i> <span>Load</span></button>
+                        </div>
                         <div class="table-responsive">
+
                             <table class="table mb-0 w-100" id="table_main">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Stt</th>
                                         <th>Name</th>
+                                        <th>Gender</th>
                                         <th>Birthday</th>
+                                        <th>Email</th>
+                                        <th>Career</th>
+                                        <th>Nationality</th>
                                         <th>Status</th>
                                         <th>Acction</th>
                                     </tr>
@@ -33,7 +60,11 @@
                                     <tr>
                                         <th>Stt</th>
                                         <th>Name</th>
+                                        <th>Gender</th>
                                         <th>Birthday</th>
+                                        <th>Email</th>
+                                        <th>Career</th>
+                                        <th>Nationality</th>
                                         <th>Status</th>
                                         <th>Acction</th>
                                     </tr>
