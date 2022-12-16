@@ -23,7 +23,7 @@ const buttonActionHtml = function (id, status, timer) {
 
     if (parseInt(status) != -1) {
         switch (parseInt(status)) {
-            case 0: html += `<button type="button" class="btn btn-sm btn-outline-warning text-warning" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-lock"></i></button>`; break;
+            case 0: html += `<button type="button" class="btn btn-sm btn-outline-warning text-info" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-lock"></i></button>`; break;
             case 1: html += `<button type="button" class="btn btn-sm btn-outline-secondary text-info" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-unlock"></i></button>`; break;
             default: break;
         }
@@ -192,6 +192,7 @@ function ShowEditModal(elm, id) {
             CheckResponseIsSuccess(response); return false;
         }
         ShowPanelWhenDone(response);
+        $('.select2').select();
         InitSubmitEditForm();
     }).fail(function (err) {
         $(elm).attr('disabled', false); $(elm).html(text);
@@ -294,6 +295,8 @@ function InitSubmitEditForm() {
                 ShowToastNoti('success', '', _resultActionResource.UpdateSuccess);
                 BackToTable('#div_main_table', '#div_view_panel');
                 ChangeUIEdit(dataTable, response.data.id, response.data);
+
+                LoadDataTable();
             }, error: function (err) {
                 //laddaSubmitForm.stop();
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
@@ -398,7 +401,7 @@ function LoadDistrict(elm, divElm, formElm) {
     let $districtSelect = $(formElm).find('[name="addressObj.districtId"]');
     let $wardSelect = $(formElm).find('[name="addressObj.wardId"]');
 
-    /*$wardSelect.html(FIRST_OPTION);*/
+   /* $wardSelect.html(FIRST_OPTION);*/
     $wardSelect.val('0');
     if (parseInt(value) === 0) {
         $districtSelect.html('');
@@ -406,7 +409,7 @@ function LoadDistrict(elm, divElm, formElm) {
         $wardSelect.html('');
         $wardSelect.attr('disabled', true);
     } else {
-        /*ShowOverlay3Dot($(divElm));*/
+        //ShowOverlay3Dot($(divElm));
         $.ajax({
             type: "GET",
             url: "/Common/GetListDropdownDistrict",
@@ -422,7 +425,7 @@ function LoadDistrict(elm, divElm, formElm) {
                 $.map(response.data, function (item) {
                     html += `<option value="${item.id}">${item.name}</option>`;
                 });
-                /*$districtSelect.html(FIRST_OPTION + html);*/
+              /*  $districtSelect.html(FIRST_OPTION + html);*/
                 $districtSelect.html(html);
                 $districtSelect.attr('disabled', false);
                 $districtSelect.val($districtSelect.children('option:not(.bs-title-option)').eq(0).val());
@@ -457,7 +460,7 @@ function LoadWard(elm, divElm, formElm) {
                 if (!CheckResponseIsSuccess(response)) return false;
                 let html = '';
                 $.map(response.data, function (item) {
-                    html += `<option value="${item.id}">${item.name1}</option>`;
+                    html += `<option value="${item.id}">${item.name}</option>`;
                 });
 
                 $wardSelect.html(html);

@@ -22,7 +22,7 @@ namespace Student_WebAdmin.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetListDropdownDistrict(string provinceId = "0")
+        public async Task<JsonResult> GetListDropdownDistrict(int? provinceId = 0)
         {
             //var res = await _s_address.getListDistrictByStatusProvinceId<List<M_District>>(_accessToken, provinceId);
             var res = await _s_address.getListDistrictByStatusProvinceId(_accessToken, provinceId);
@@ -31,7 +31,7 @@ namespace Student_WebAdmin.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetListDropdownWard(string districtId = "0")
+        public async Task<JsonResult> GetListDropdownWard(int? districtId = 0)
         {
             //var res = await _s_address.getListWardByStatusDistrictId<List<M_Ward>>(_accessToken, districtId);
             var res = await _s_address.getListWardByStatusDistrictId(_accessToken, districtId);

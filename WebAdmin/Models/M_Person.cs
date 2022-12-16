@@ -21,6 +21,7 @@ namespace Student_WebAdmin.Models
         public string remark { get; set; }
         public M_Nationality nationalityObj { get; set; }
         public M_PersonType personTypeObj { get; set; }
+        public EM_Address addressObj { get; set; }
 
     }
     public class EM_Person:M_BaseModel.BaseCustom

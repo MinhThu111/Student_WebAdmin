@@ -10,6 +10,7 @@ namespace Student_WebAdmin.Services
         Task<ResponseData<List<M_Person>>> getListPersonByConditionSequenceStatus(string accessToken, string sequenceStatus, string name, DateTime? fdate, DateTime? tdate);
         Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus);
         Task<ResponseData<M_Person>> getPersonById(string accessToken, int id);
+       
         Task<ResponseData<M_Person>> Create(string accessToken, EM_Person model, string createdBy);
         Task<ResponseData<M_Person>> Update(string accessToken, EM_Person model, string updatedBy);
         Task<ResponseData<M_Person>> Delete(string accessToken, int id, string updatedBy);
@@ -60,9 +61,9 @@ namespace Student_WebAdmin.Services
             };
             return await _callApi.GetResponseDataAsync<M_Person>("/Person/getPersonById", dictPars, accessToken);
         }
+        
         public async Task<ResponseData<M_Person>> Create(string accessToken, EM_Person model, string createdBy)
         {
-
             var cAddress = await _s_Address.Create(accessToken, model.addressObj, createdBy);
             model.addressId = cAddress.data.Id;
 
@@ -113,15 +114,15 @@ namespace Student_WebAdmin.Services
             Dictionary<string, dynamic> dictPars = new Dictionary<string, dynamic>
             {
                 {"id", model.id},
-                {"firstName", model.firstName},
-                {"lastName", model.lastName},
+                {"firstname", model.firstName},
+                {"lastname", model.lastName},
                 {"gender", model.gender},
-                {"phoneNumber", model.phoneNumber},
-                {"status", model.status},
-                {"updatedBy", updatedBy},
+                {"persontypeid",model.personTypeId },
                 {"timer", model.timer?.ToString("O")},
-                {"addressId",model.addressId },
-                {"personId",model.personTypeId }
+                {"status", model.status},
+                {"addressid",model.addressId },
+                {"phonenumber", model.phoneNumber}
+                //{"updatedBy", updatedBy}
             };
             return await _callApi.PutResponseDataAsync<M_Person>("/Person/Update", dictPars, accessToken);
         }

@@ -41,7 +41,7 @@ namespace Student_WebAdmin.Controllers
         [HttpGet]//ok
         public async Task<JsonResult> GetList(string status)
         {
-            var res = await _s_person.getListPersonBySequenceStatus(_accessToken,status);
+            var res = await _s_person.getListPersonBySequenceStatus(_accessToken, status);
 
             return Json(new M_JResult(res));
         }
@@ -49,7 +49,7 @@ namespace Student_WebAdmin.Controllers
         [HttpGet]
         public async Task<JsonResult> P_View(int id)
         {
-            var res = await _s_person.getPersonById(_accessToken,id);
+            var res = await _s_person.getPersonById(_accessToken, id);
             return Json(new M_JResult(res));
         }
 
@@ -92,9 +92,11 @@ namespace Student_WebAdmin.Controllers
             Task task1 = SetDropDownNationality(model.nationalityId),
             task2 = SetDropDownPersonType(model.personTypeId),
             task3 = SetDropDownFolk(model.folkId),
-            task4 = SetDropDownReligion(model.religionId), 
-            task5 = SetDropDownListProvince(model.addressId);
-            await Task.WhenAll(task1, task2, task3, task4,task5);
+            task4 = SetDropDownReligion(model.religionId),
+            task5 = SetDropDownListProvince(model.addressId),
+            task6 = SetDropDownDistrict(model.addressObj?.districtId, model.addressObj?.provinceId),
+            task7 = SetDropDownWard(model.addressObj?.wardId, model.addressObj?.districtId);
+            await Task.WhenAll(task1, task2, task3, task4, task5, task6, task7);
             return PartialView(model);
         }
 
@@ -116,7 +118,7 @@ namespace Student_WebAdmin.Controllers
         [HttpPost]//ok
         public async Task<JsonResult> Delete(int id)
         {
-            var res = await _s_person.Delete(_accessToken, id,_userId);
+            var res = await _s_person.Delete(_accessToken, id, _userId);
             return Json(new M_JResult(res));
         }
 
@@ -160,6 +162,23 @@ namespace Student_WebAdmin.Controllers
             ViewBag.ReligionId = new SelectList(result, "Id", "Name", selectedId);
         }
 
+        private async Task SetDropDownDistrict(int? selectedId = 0, int? provinceId = 1)
+        {
+            List<VM_SelectDropDown> result = new List<VM_SelectDropDown>();
+            var res = await _s_address.getListDistrictByStatusProvinceId(_accessToken, provinceId);
+            if (res.result == 1 && res.data != null)
+                result = _mapper.Map<List<VM_SelectDropDown>>(res.data);
+            ViewBag.DistrictId = new SelectList(result, "Id", "Name", selectedId);
+        }
+
+        private async Task SetDropDownWard(int? selectedId = 0, int? districtId = 1)
+        {
+            List<VM_SelectDropDown> result = new List<VM_SelectDropDown>();
+            var res = await _s_address.getListWardByStatusDistrictId(_accessToken, districtId);
+            if (res.result == 1 && res.data != null)
+                result = _mapper.Map<List<VM_SelectDropDown>>(res.data);
+            ViewBag.WardId = new SelectList(result, "Id", "Name", selectedId);
+        }
 
 
 
