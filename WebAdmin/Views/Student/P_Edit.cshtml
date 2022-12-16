@@ -1,11 +1,12 @@
 ﻿@model EM_Person
 
-s<div class="card radius-15">
+<div class="card radius-15">
     <div class="card-body">
         <form asp-action="P_Edit" id="form_data" asp-antiforgery="true">
             <input type="hidden" asp-for="status"/>
             <input type="hidden" asp-for="timer" value="@Model.timer?.ToString("O")"/>
             <input type="hidden" asp-for="id"/>
+            <input type="hidden" asp-for="personTypeId" value="1"/>
             <div class="row border-0">
                 <div class="modal-header border-0">
                     <h4 class="modal-title">Update Student</h4>
@@ -21,12 +22,12 @@ s<div class="card radius-15">
                             <input asp-for="firstName" class="form-control " placeholder="First name">
                         </div>
                     </div>
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label class="control-label">Person Type</label>
                         <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class=" form-control">
                             <option value="">Person Type</option>
                         </select>
-                    </div>
+                    </div>*@
                     <div class="form-group">
                         <label class="control-label">Birthday</label>
                         <input asp-for="birthDay" class="form-control">

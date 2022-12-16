@@ -96,10 +96,6 @@ const columnTable = function () {
             className: "text-nowrap text-dark font-weight-normal"
         },
         {
-            data: "personTypeObj.name",
-            className: "text-nowrap text-dark font-weight-normal"
-        },
-        {
             data: "nationalityObj.name",
             className: "text-nowrap text-dark font-weight-normal"
         },
@@ -192,7 +188,7 @@ function ShowEditModal(elm, id) {
             CheckResponseIsSuccess(response); return false;
         }
         ShowPanelWhenDone(response);
-        $('.select2').select();
+        $('.select2').select2();
         InitSubmitEditForm();
     }).fail(function (err) {
         $(elm).attr('disabled', false); $(elm).html(text);
@@ -227,6 +223,7 @@ function Delete(id) {
                         }
                         ShowToastNoti('success', '', _resultActionResource.DeleteSuccess);
                         ChangeUIDelete(dataTable, id);
+                        LoadDataTable();
                         resolve();
                     },
                     error: function (err) {
@@ -262,7 +259,8 @@ function InitSubmitAddForm() {
                 if (!CheckResponseIsSuccess(response)) return false;
                 ShowToastNoti('success', '', _resultActionResource.AddSuccess);
                 BackToTable('#div_main_table', '#div_view_panel');
-                if (CheckNewRecordIsAcceptAddTable(response.data)) ChangeUIAdd(dataTable, response.data); //Add row in table
+                if (CheckNewRecordIsAcceptAddTable(response.data)) ChangeUIAdd(dataTable, response.data);
+                LoadDataTable();
             }, error: function (err) {
                 laddaSubmitForm.stop();
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });

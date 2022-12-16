@@ -10,7 +10,7 @@ using System.Net.WebSockets;
 
 namespace Student_WebAdmin.Controllers
 {
-    public class StudentController : BaseController<StudentController>
+    public class TeacherController : BaseController<TeacherController>
     {
         //call api new
         private static List<M_Person> _persons = new List<M_Person>();
@@ -22,7 +22,7 @@ namespace Student_WebAdmin.Controllers
         private readonly IMapper _mapper;
         private readonly IS_Address _s_address;
 
-        public StudentController(IS_Person person, IS_Nationality nationality, IS_PersonType persontype, IS_Folk folk, IS_Religion religion, IMapper mapper, IS_Address s_address)
+        public TeacherController(IS_Person person, IS_Nationality nationality, IS_PersonType persontype, IS_Folk folk, IS_Religion religion, IMapper mapper, IS_Address s_address)
         {
             _s_person = person;
             _s_nationality = nationality;
@@ -76,6 +76,7 @@ namespace Student_WebAdmin.Controllers
                 jResult.error = new error(0, DataAnnotationExtensionMethod.GetErrorMessage(ModelState));
                 return Json(jResult);
             }
+            model.personTypeId = 2;
             var res = await _s_person.Create(_accessToken, model, _userId);
             return Json(jResult.MapData(res));
         }
@@ -109,6 +110,7 @@ namespace Student_WebAdmin.Controllers
                 jResult.error = new error(0, DataAnnotationExtensionMethod.GetErrorMessage(ModelState));
                 return Json(jResult);
             }
+            model.personTypeId = 2;
             var res = await _s_person.Update(_accessToken, model, _userId);
 
             return Json(jResult.MapData(res));

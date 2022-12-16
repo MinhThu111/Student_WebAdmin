@@ -8,7 +8,7 @@ namespace Student_WebAdmin.Services
     {
         Task<ResponseData<List<M_Person>>> getListPerson(string accessToken);
         Task<ResponseData<List<M_Person>>> getListPersonByConditionSequenceStatus(string accessToken, string sequenceStatus, string name, DateTime? fdate, DateTime? tdate);
-        Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus);
+        Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus, int persontypeid);
         Task<ResponseData<M_Person>> getPersonById(string accessToken, int id);
        
         Task<ResponseData<M_Person>> Create(string accessToken, EM_Person model, string createdBy);
@@ -45,11 +45,12 @@ namespace Student_WebAdmin.Services
             };
             return await _callApi.GetResponseDataAsync<List<M_Person>>("Person/getListPersonByConditionSequenceStatus", dictPars, accessToken);
         }
-        public async Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus)
+        public async Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus, int persontypeid)
         {
             Dictionary<string, dynamic> dictPars = new Dictionary<string, dynamic>
             {
                 {"sequenceStatus", sequenceStatus},
+                {"persontypeid",persontypeid }
             };
             return await _callApi.GetResponseDataAsync<List<M_Person>>("/Person/getListPersonBySequenceStatus", dictPars, accessToken);
         }
@@ -79,7 +80,7 @@ namespace Student_WebAdmin.Services
                 {"folkId",model.folkId },
                 {"addressId",model.addressId },
                 {"phoneNumber",model.phoneNumber },
-                {"email", model.email},
+                {"email", model.email}
                 //{"createdBy", createdBy},
             };
             return await _callApi.PostResponseDataAsync<M_Person>("/Person/Create", dictPars, accessToken);
@@ -121,7 +122,8 @@ namespace Student_WebAdmin.Services
                 {"timer", model.timer?.ToString("O")},
                 {"status", model.status},
                 {"addressid",model.addressId },
-                {"phonenumber", model.phoneNumber}
+                {"phonenumber", model.phoneNumber},
+                {"email", model.email}
                 //{"updatedBy", updatedBy}
             };
             return await _callApi.PutResponseDataAsync<M_Person>("/Person/Update", dictPars, accessToken);

@@ -3,6 +3,8 @@
 <div class="card radius-15">
     <div class="card-body">
         <form asp-action="P_Add" id="form_data" asp-antiforgery="true">
+
+            <input type="hidden" asp-for="personTypeId" value="1" />
             <div class="row border-0">
                 <div class="modal-header border-0">
                     <h4 class="modal-title">Add Student</h4>
@@ -41,12 +43,12 @@
                     </div>
 
 
-                    <div class="form-group">
-                        <label class="control-label">Person Type</label>
-                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class="form-control select2" style="width:100%">
-                            <option value="0">--Chọn--</option>
-                        </select>
-                    </div>
+                    @*<div class="form-group">
+                    <label class="control-label">Person Type</label>
+                    <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class="form-control select2" style="width:100%">
+                        <option value="0">--Chọn--</option>
+                    </select>
+                </div>*@
 
                     <div class="form-group">
                         <label class="control-label">Religion</label>
@@ -74,7 +76,7 @@
                             <label asp-for="addressObj.provinceId">Tỉnh - Thành phố</label>
                             <select asp-for="addressObj.provinceId" asp-items="ViewBag.ProvinceId"
                                     class="select2 form-control" style="width:100%" onchange="LoadDistrict(this, '#div_form_district', '#form_data')">
-                                <option value="0" >--Chọn--</option>
+                                <option value="0">--Chọn--</option>
                             </select>
                         </span>
                         <span asp-validation-for="addressObj.provinceId" class="invalid-feedback"></span>
@@ -83,8 +85,8 @@
                         <span class="has-float-label">
                             <label asp-for="addressObj.districtId">Quận - Huyện</label>
                             <select asp-for="addressObj.districtId" asp-items="ViewBag.DistrictId"
-                                    class="form-control select2 " onchange="LoadWard(this, '#div_form_ward', '#form_data')"  style="width:100%">
-                                <option value="0" >--Chọn--</option>
+                                    class="form-control select2 " onchange="LoadWard(this, '#div_form_ward', '#form_data')" style="width:100%">
+                                <option value="0">--Chọn--</option>
                             </select>
                         </span>
                         <span asp-validation-for="addressObj.districtId" class="invalid-feedback"></span>
@@ -93,7 +95,7 @@
                         <span class="has-float-label">
                             <label asp-for="addressObj.wardId">Phường - Xã</label>
                             <select asp-for="addressObj.wardId" asp-items="ViewBag.WardId" class="select2 form-control" style="width:100%">
-                                <option value="0" >--Chọn--</option>
+                                <option value="0">--Chọn--</option>
                             </select>
                         </span>
                     </div>
