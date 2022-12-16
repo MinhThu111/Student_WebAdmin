@@ -3,8 +3,6 @@
 <div class="card radius-15">
     <div class="card-body">
         <form asp-action="P_Add" id="form_data" asp-antiforgery="true">
-
-            <input type="hidden" asp-for="personTypeId" value="1" />
             <div class="row border-0">
                 <div class="modal-header border-0">
                     <h4 class="modal-title">Add Student</h4>
@@ -43,12 +41,12 @@
                     </div>
 
 
-                    @*<div class="form-group">
+                    <div class="form-group">
                     <label class="control-label">Person Type</label>
                     <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class="form-control select2" style="width:100%">
                         <option value="0">--Chọn--</option>
                     </select>
-                </div>*@
+                </div>
 
                     <div class="form-group">
                         <label class="control-label">Religion</label>

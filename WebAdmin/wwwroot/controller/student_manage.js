@@ -2,6 +2,7 @@
 var dataTable;
 var $tableMain = $('#table_main');
 var $selectSearchStatus = $('#select_search_status');
+var $selectSearchPersontype = $('#select_search_persontype');
 
 $(document).ready(function () {
 
@@ -47,6 +48,7 @@ const dataParamsTable = function (method = 'GET') {
         url: '/Student/GetList',
         data: function (d) {
             d.status = $selectSearchStatus.val();
+            d.lstpersontypeid = $selectSearchPersontype.val();
             //console.log(d.status);
         },
         dataType: 'json',

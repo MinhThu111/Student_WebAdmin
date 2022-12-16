@@ -7,7 +7,7 @@
     <title>Syndash - Bootstrap4 Admin Template</title>
     <link rel="icon" href="~/assets/images/favicon-32x32.png" type="image/png" />
     @*<link href="~/assets/css/pace.min.css" rel="stylesheet" />
-    <script src="~/assets/js/pace.min.js"></script>*@
+        <script src="~/assets/js/pace.min.js"></script>*@
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/assets/css/icons.css" />
     <link rel="stylesheet" href="~/assets/css/app.css" />
@@ -16,12 +16,14 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link href="~/assets/libs/izi-toast-mater/css/iziToast.min.css" rel="stylesheet" />
     <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true"/>
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
-<body class="bg-register">
+<body    class="bg-register"  >
+
     <!-- wrapper -->
-    <div>
+    <div id="vantajs">
         <main role="main">
             @RenderBody()
         </main>
@@ -45,6 +47,16 @@
                     $('#show_hide_password i').removeClass("bx-hide");
                     $('#show_hide_password i').addClass("bx-show");
                 }
+            });
+            VANTA.CLOUDS({
+                el: "#vantajs",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                skyColor: 0x1488cc,
+                cloudColor: 0x6dd5fa
             });
         });
     </script>

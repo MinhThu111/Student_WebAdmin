@@ -39,9 +39,9 @@ namespace Student_WebAdmin.Controllers
         }
 
         [HttpGet]//ok
-        public async Task<JsonResult> GetList(string status)
+        public async Task<JsonResult> GetList(string status, string lstpersontypeid)
         {
-            var res = await _s_person.getListPersonBySequenceStatus(_accessToken, status, 1);
+            var res = await _s_person.getListPersonBySequenceStatus(_accessToken, status, lstpersontypeid);
 
             return Json(new M_JResult(res));
         }
