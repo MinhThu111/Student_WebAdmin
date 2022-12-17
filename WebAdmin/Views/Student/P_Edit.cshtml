@@ -1,120 +1,127 @@
 ﻿@model EM_Person
+<div class="wrapper">
+    <div class="page-wrapper">
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <div class="card radius-15">
+                    <div class="card-body">
+                        <form asp-action="P_Edit" id="form_data" asp-antiforgery="true">
+                            <input type="hidden" asp-for="status" />
+                            <input type="hidden" asp-for="timer" value="@Model.timer?.ToString("O")" />
+                            <input type="hidden" asp-for="id" />
+                            <input type="hidden" asp-for="personTypeId" value="1" />
+                            <div class="row border-0">
+                                <div class="modal-header border-0">
+                                    <h4 class="modal-title">CẬP NHẬT THÔNG TIN</h4>
+                                </div>
+                                <div class="col-12 col-lg-6 border-right">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label class="control-label">Họ</label>
+                                            <input asp-for="lastName" class="form-control" placeholder="eg: Nguyễn">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="control-label">Tên</label>
+                                            <input asp-for="firstName" class="form-control " placeholder="eg: Trung">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Nghề nghiệp</label>
+                                <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class=" form-control">
+                                    <option value="0">--Chọn--</option>
+                                </select>
+                            </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Ngày sinh</label>
+                                        <input asp-for="birthDay" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Giới tính</label>
+                                        <div class="form-control border-white">
+                                            <input asp-for="gender" type="radio" value="0" />
+                                            <label asp-for="gender">Male</label>
+                                            <input asp-for="gender" type="radio" value="1" />
+                                            <label asp-for="gender">Female</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Quốc tịch</label>
+                                        <select asp-for="nationalityId" asp-items="ViewBag.NationalityId" class=" form-control">
+                                            <option value="0">--Chọn--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Tôn giáo</label>
+                                        <select asp-for="religionId" asp-items=" ViewBag.ReligionId" class=" form-control">
+                                            <option value="0">--Chọn--</option>
+                                        </select>
+                                    </div>
 
-<div class="card radius-15">
-    <div class="card-body">
-        <form asp-action="P_Edit" id="form_data" asp-antiforgery="true">
-            <input type="hidden" asp-for="status"/>
-            <input type="hidden" asp-for="timer" value="@Model.timer?.ToString("O")"/>
-            <input type="hidden" asp-for="id"/>
-            <input type="hidden" asp-for="personTypeId" value="1"/>
-            <div class="row border-0">
-                <div class="modal-header border-0">
-                    <h4 class="modal-title">Update Student</h4>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Dân tộc</label>
+                                        <select asp-for="folkId" asp-items="ViewBag.FolkId" id="calc_shipping_folk" class=" form-control">
+                                            <option value="">Folk</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="div_form_province">
+                                        <span class="has-float-label">
+                                            <label asp-for="addressObj.provinceId">Tỉnh - Thành phố</label>
+                                            <select asp-for="addressObj.provinceId" asp-items="ViewBag.ProvinceId"
+                                                    class="select2 form-control" onchange="LoadDistrict(this, '#div_form_district', '#form_data')" style="width:100%">
+                                                <option value="0">--Chọn--</option>
+                                            </select>
+                                        </span>
+                                        <span asp-validation-for="addressObj.provinceId" class="invalid-feedback"></span>
+                                    </div>
+                                    <div class="form-group" id="div_form_district">
+                                        <span class="has-float-label">
+                                            <label asp-for="addressObj.districtId">Quận - Huyện</label>
+                                            <select asp-for="addressObj.districtId" asp-items="ViewBag.DistrictId"
+                                                    class="select2 form-control" onchange="LoadWard(this, '#div_form_ward', '#form_data')" style="width:100%">
+                                                <option value="0">--Chọn--</option>
+                                            </select>
+                                        </span>
+                                        <span asp-validation-for="addressObj.districtId" class="invalid-feedback"></span>
+                                    </div>
+                                    <div class="form-group" id="div_form_ward">
+                                        <span class="has-float-label">
+                                            <label asp-for="addressObj.wardId">Phường - Xã</label>
+                                            <select asp-for="addressObj.wardId" asp-items="ViewBag.WardId" class="select2 form-control" style="width:100%">
+                                                <option value="0">--Chọn--</option>
+                                            </select>
+                                        </span>
+                                        <span asp-validation-for="addressObj.wardId" class="invalid-feedback"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="has-float-label">
+                                            <label asp-for="addressObj.addressText">Số nhà/tổ/khu phố</label>
+                                            <input asp-for="addressObj.addressText" class="form-control" maxlength="150" placeholder="eg: C20 Hẻm số 40 Đường Nguyễn Du" />
+
+                                        </span>
+                                        <span asp-validation-for="addressObj.addressText" class="invalid-feedback"></span>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="control-label">Số điện thoại</label>
+                                        <input asp-for="phoneNumber" class="form-control" placeholder="Phone number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Đại chỉ Email</label>
+                                        <input asp-for="email" class="form-control" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="button" value="HỦY BỎ" class="btn btn-outline-secondary waves-effect " onclick="BackToTable('#div_main_table', '#div_view_panel');" />
+                                    <input type="submit" class="btn btn-success" value="CẬP NHẬT">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="col-12 col-lg-6 border-right">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Last Name</label>
-                            <input asp-for="lastName" class="form-control" placeholder="Last Name">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label">First Name</label>
-                            <input asp-for="firstName" class="form-control " placeholder="First name">
-                        </div>
-                    </div>
-                    @*<div class="form-group">
-                        <label class="control-label">Person Type</label>
-                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class=" form-control">
-                            <option value="">Person Type</option>
-                        </select>
-                    </div>*@
-                    <div class="form-group">
-                        <label class="control-label">Birthday</label>
-                        <input asp-for="birthDay" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Gender</label>
-                        <div class="form-control border-white">
-                            <input asp-for="gender" type="radio" value="0" />
-                            <label asp-for="gender">Male</label>
-                            <input asp-for="gender" type="radio" value="1" />
-                            <label asp-for="gender">Female</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Nationality</label>
-                        <select asp-for="nationalityId" asp-items="ViewBag.NationalityId" class=" form-control">
-                            <option value="">Nationality</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Religion</label>
-                        <select asp-for="religionId" asp-items=" ViewBag.ReligionId" class=" form-control">
-                            <option value="">Religion</option>
-                        </select>
-                    </div>
-                    
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div class="form-group">
-                        <label class="control-label">Folk</label>
-                        <select asp-for="folkId" asp-items="ViewBag.FolkId" id="calc_shipping_folk" class=" form-control">
-                            <option value="">Folk</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="div_form_province">
-                        <span class="has-float-label">
-                            <label asp-for="addressObj.provinceId">Tỉnh - Thành phố</label>
-                            <select asp-for="addressObj.provinceId" asp-items="ViewBag.ProvinceId"
-                                    class="select2 form-control" onchange="LoadDistrict(this, '#div_form_district', '#form_data')">
-                                <option value="0">--Chọn--</option>
-                            </select>
-                        </span>
-                        <span asp-validation-for="addressObj.provinceId" class="invalid-feedback"></span>
-                    </div>
-                    <div class="form-group" id="div_form_district">
-                        <span class="has-float-label">
-                            <label asp-for="addressObj.districtId">Quận - Huyện</label>
-                            <select asp-for="addressObj.districtId" asp-items="ViewBag.DistrictId"
-                                    class="select2 form-control" onchange="LoadWard(this, '#div_form_ward', '#form_data')">
-                                <option value="0">--Chọn--</option>
-                            </select>
-                        </span>
-                        <span asp-validation-for="addressObj.districtId" class="invalid-feedback"></span>
-                    </div>
-                    <div class="form-group" id="div_form_ward">
-                        <span class="has-float-label">
-                            <label asp-for="addressObj.wardId">Phường - Xã</label>
-                            <select asp-for="addressObj.wardId" asp-items="ViewBag.WardId" class="select2 form-control">
-                                <option value="0">--Chọn--</option>
-                            </select>
-                        </span>
-                        <span asp-validation-for="addressObj.wardId" class="invalid-feedback"></span>
-                    </div>
-                    <div class="form-group">
-                        <span class="has-float-label">
-                            <label asp-for="addressObj.addressText">Số nhà/tổ/khu phố</label>
-                            <input asp-for="addressObj.addressText" class="form-control" maxlength="150" placeholder="eg: C20 Hẻm số 40 Đường Nguyễn Du" />
-
-                        </span>
-                        <span asp-validation-for="addressObj.addressText" class="invalid-feedback"></span>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label">Phone Number</label>
-                        <input asp-for="phoneNumber" class="form-control" placeholder="Phone number">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Email</label>
-                        <input asp-for="email" class="form-control" placeholder="Email">
-                    </div>
-                </div>
-            <div class="modal-footer">
-                <input type="button" value="Cancel" class="btn btn-outline-secondary waves-effect " onclick="BackToTable('#div_main_table', '#div_view_panel');" />
-                <input type="submit" class="btn btn-success" value="Update">
             </div>
+        </div>
     </div>
-    </form>
-</div>
 </div>

@@ -73,7 +73,7 @@ namespace Student_WebAdmin.Services
                 {"firstName", model.firstName},
                 {"lastName", model.lastName},
                 {"personTypeId",model.personTypeId },
-                { "birthDay", model.birthDay},
+                { "birthDay", model.birthDay?.ToString("O")},
                 {"gender", model.gender},
                 {"nationalityId",model.nationalityId }, 
                 {"religionId",model.religionId },

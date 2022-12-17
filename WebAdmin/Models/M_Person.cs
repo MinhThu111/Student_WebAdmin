@@ -16,6 +16,7 @@ namespace Student_WebAdmin.Models
         public int? religionId { get; set; }
         public int? folkId { get; set; }
         public int? addressId { get; set; }
+        public string avatarUrl { get; set; }
         public string phoneNumber { get; set; }
         public string email { get; set; }
         public string remark { get; set; }
@@ -39,6 +40,7 @@ namespace Student_WebAdmin.Models
         public int? religionId { get; set; }
         public int? folkId { get; set; }
         public int? addressId { get; set; }
+        public string avatarUrl { get; set; }
         public string phoneNumber { get; set; }
    
         [DataType(DataType.EmailAddress)]

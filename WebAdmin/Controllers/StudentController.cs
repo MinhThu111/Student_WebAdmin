@@ -58,12 +58,12 @@ namespace Student_WebAdmin.Controllers
         public async Task<IActionResult> P_Add()
         {
             Task task1 = SetDropDownNationality(),
-            //task2 = SetDropDownPersonType(),
+            task2 = SetDropDownPersonType(),
             task3 = SetDropDownFolk(),
             task4 = SetDropDownReligion(),
             task5 = SetDropDownListProvince();
 
-            await Task.WhenAll(task1, task3, task4, task5);
+            await Task.WhenAll(task1, task3, task2, task4, task5);
             return PartialView();
         }
 
@@ -90,13 +90,13 @@ namespace Student_WebAdmin.Controllers
             var model = _mapper.Map<EM_Person>(res.data);
 
             Task task1 = SetDropDownNationality(model.nationalityId),
-            //task2 = SetDropDownPersonType(model.personTypeId),
+            task2 = SetDropDownPersonType(model.personTypeId),
             task3 = SetDropDownFolk(model.folkId),
             task4 = SetDropDownReligion(model.religionId),
             task5 = SetDropDownListProvince(model.addressId),
             task6 = SetDropDownDistrict(model.addressObj?.districtId, model.addressObj?.provinceId),
             task7 = SetDropDownWard(model.addressObj?.wardId, model.addressObj?.districtId);
-            await Task.WhenAll(task1, task3, task4, task5, task6, task7);
+            await Task.WhenAll(task1, task2, task3, task4, task5, task6, task7);
             return PartialView(model);
         }
 

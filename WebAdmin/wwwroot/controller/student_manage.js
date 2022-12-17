@@ -10,21 +10,14 @@ $(document).ready(function () {
     LoadDataTable();
 
 });
-
 const buttonActionHtml = function (id, status, timer) {
     let html = ``;
-  /*  html += `<a href="#editEmployeeModal" class="edit" onclick="ShowEditModal(this,${id})" title="${_buttonResource.Edit}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>`;*/
-    html += `<button type="button" class="btn btn-sm btn-outline-secondary" onclick="ShowEditModal(this,${id})" title="${_buttonResource.Edit}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>`
-    html += `<button type="button" class="btn btn-sm btn-outline-secondary" onclick="Delete(${id})" title="${_buttonResource.Delete}" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button> 
-`
-    //html += `<a href="#deleteEmployeeModal" class="delete" onclick="Delete(${id})" title="${_buttonResource.Delete}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>`;
-    //if (parseInt(status) != -1)
-        
-    //    html += `<button type="button" class="btn btn-sm btn-outline-secondary text-info" id="status_${id}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" title="Mở khóa"><i class="lni lni-unlock"></i></button> `;
-
+    html += `<button type="button" class="btn btn-sm btn-outline-secondary " onclick="ShowEditModal(this,${id})" title="${_buttonResource.Edit}"><i class='bx bx-edit'></i></button> `;
+    html += `<button type="button" class="btn btn-sm btn-outline-secondary" onclick="Delete(${id})" title="${_buttonResource.Delete}" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button> `;
+  
     if (parseInt(status) != -1) {
         switch (parseInt(status)) {
-            case 0: html += `<button type="button" class="btn btn-sm btn-outline-warning text-info" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-lock"></i></button>`; break;
+            case 0: html += `<button type="button" class="btn btn-sm btn-outline-warning text-secondary" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-lock"></i></button>`; break;
             case 1: html += `<button type="button" class="btn btn-sm btn-outline-secondary text-info" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-unlock"></i></button>`; break;
             default: break;
         }
@@ -85,7 +78,7 @@ const columnTable = function () {
         },
         {
             data: "gender",
-            render: (data) => data == '0' ? 'Male' : 'Female',
+            render: (data) => data == '0' ? 'Nam' : 'Nữ',
             className: "text-nowrap text-dark font-weight-normal"
         },
         {
@@ -98,8 +91,9 @@ const columnTable = function () {
             className: "text-nowrap text-dark font-weight-normal"
         },
         {
-            data: "nationalityObj.name",
-            className: "text-nowrap text-dark font-weight-normal"
+            data: "avatarUrl",
+            render: (data, type, row, meta) => IsNullOrEmty(data) ? '' : `<img class="img img-thumbnail" src="${data}" style="width:90%;height:90%;object-fit:cover;" alt="avatar" ${_imageErrorUrl.square}' />`,
+            className: "text-center text-nowrap",
         },
 
         {
@@ -172,7 +166,11 @@ function ShowAddModal(elm) {
         }
         ShowPanelWhenDone(response);
         $(".select2").select2();
-        console.log(response);
+        $('[maxlength]').maxlength({
+            alwaysShow: !0,
+            warningClass: "badge badge-success",
+            limitReachedClass: "badge badge-danger"
+        });
         InitSubmitAddForm();
     }).fail(function (err) {
         $(elm).attr('disabled', false); $(elm).html(text);
@@ -191,6 +189,11 @@ function ShowEditModal(elm, id) {
         }
         ShowPanelWhenDone(response);
         $('.select2').select2();
+        $('[maxlength]').maxlength({
+            alwaysShow: !0,
+            warningClass: "badge badge-success",
+            limitReachedClass: "badge badge-danger"
+        });
         InitSubmitEditForm();
     }).fail(function (err) {
         $(elm).attr('disabled', false); $(elm).html(text);
@@ -225,7 +228,11 @@ function Delete(id) {
                         }
                         ShowToastNoti('success', '', _resultActionResource.DeleteSuccess);
                         ChangeUIDelete(dataTable, id);
-                        LoadDataTable();
+                        $('[maxlength]').maxlength({
+                            alwaysShow: !0,
+                            warningClass: "badge badge-success",
+                            limitReachedClass: "badge badge-danger"
+                        });
                         resolve();
                     },
                     error: function (err) {
@@ -262,7 +269,7 @@ function InitSubmitAddForm() {
                 ShowToastNoti('success', '', _resultActionResource.AddSuccess);
                 BackToTable('#div_main_table', '#div_view_panel');
                 if (CheckNewRecordIsAcceptAddTable(response.data)) ChangeUIAdd(dataTable, response.data);
-                LoadDataTable();
+                
             }, error: function (err) {
                 laddaSubmitForm.stop();
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
@@ -295,8 +302,6 @@ function InitSubmitEditForm() {
                 ShowToastNoti('success', '', _resultActionResource.UpdateSuccess);
                 BackToTable('#div_main_table', '#div_view_panel');
                 ChangeUIEdit(dataTable, response.data.id, response.data);
-
-                LoadDataTable();
             }, error: function (err) {
                 //laddaSubmitForm.stop();
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
@@ -335,7 +340,13 @@ function ChangeStatus(elm, e, id, timer) {
                 window.setTimeout(function () {
                     $(elm).attr('onclick', `ChangeStatus(this, event, ${response.data.id}, '${response.data.timer}')`);
                     ChangeUIEdit(dataTable, response.data.id, response.data);
+                    $('[maxlength]').maxlength({
+                        alwaysShow: !0,
+                        warningClass: "badge badge-success",
+                        limitReachedClass: "badge badge-danger"
+                    });
                 }, 500);
+                
             }, error: function (err) {
                 $(elm).attr('onclick', `ChangeStatus(this, event, ${id}, '${timer}')`);
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
@@ -473,4 +484,12 @@ function LoadWard(elm, divElm, formElm) {
             }
         });
     }
+}
+
+function showPreview(elm, event) {
+    var src = $(elm).attr('avatarUrl');
+    console.log(src);
+    //var preview = document.getElementById("file-ip-1-preview");
+    //preview.src = src;
+    //preview.style.display = "block";
 }
