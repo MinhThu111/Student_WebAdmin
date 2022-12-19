@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var data = ViewBag.data as IEnumerable<M_Count>;
 }
 @section Styles{
     <partial name="_P_StylesTableAndFormBasic" />
@@ -11,10 +12,9 @@
 }
 @section Scripts{
     <partial name="_P_ScriptsTableAndFormBasic" />
-    <script src="~/assets/plugins/select2/js/select2.min.js"></script>
-    <script src="~/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-    <script src="~/controller/student_manage.js" asp-append-version="true"></script>
+    <script src="~/controller/home_manage.js" asp-append-version="true"></script>
 }
+<p>@ViewBag.data</p>
 <div class="page-wrapper">
     <div class="page-content-wrapper">
         <div class="page-content">
@@ -25,60 +25,22 @@
                     </div>
                     <hr />
                     <div class="row">
-                        <div class="col-12 col-lg-4">
-                            <div class="card radius-15">
-                                <div class="card-body">
-                                    <div class="d-flex mb-2">
-                                        <div>
-                                            <p class="mb-0 font-weight-bold">ABC</p>
-                                            <h2 class="mb-0">501</h2>
+                        @foreach (var item in data)
+                        {
+                            <div class="col-12 col-lg-4">
+                                <div class="card radius-15">
+                                    <div class="card-body">
+                                        <div class="d-flex mb-2">
+                                            <p class="mb-0 font-weight-bold" style="text-transform:uppercase">@item.name</p>
+                                            <h2 class="mb-0">@item.count person</h2>
                                         </div>
-                                        <div class="ml-auto align-self-end">
-                                            <p class="mb-0 font-14 text-primary">
-                                                <i class='bx bxs-up-arrow-circle'></i>  <span>1.01% 31 days ago</span>
-                                            </p>
-                                        </div>
+
                                     </div>
-                                    <div id="chart1"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="card radius-15">
-                                <div class="card-body">
-                                    <div class="d-flex mb-2">
-                                        <div>
-                                            <p class="mb-0 font-weight-bold">ABC</p>
-                                            <h2 class="mb-0">409</h2>
-                                        </div>
-                                        <div class="ml-auto align-self-end">
-                                            <p class="mb-0 font-14 text-success">
-                                                <i class='bx bxs-up-arrow-circle'></i>  <span>0.49% 31 days ago</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div id="chart2"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="card radius-15">
-                                <div class="card-body">
-                                    <div class="d-flex mb-2">
-                                        <div>
-                                            <p class="mb-0 font-weight-bold">ABC</p>
-                                            <h2 class="mb-0">2,346</h2>
-                                        </div>
-                                        <div class="ml-auto align-self-end">
-                                            <p class="mb-0 font-14 text-danger">
-                                                <i class='bx bxs-down-arrow-circle'></i>  <span>130.68% 31 days ago</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div id="chart3"></div>
-                                </div>
-                            </div>
-                        </div>
+                        }
+
+
                     </div>
                 </div>
             </div>

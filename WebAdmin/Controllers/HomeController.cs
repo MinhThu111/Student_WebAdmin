@@ -3,6 +3,8 @@ using System.Diagnostics;
 using Student_WebAdmin.Models;
 using Student_WebAdmin.Services;
 using AutoMapper;
+using Microsoft.Build.Framework;
+using Student_WebAdmin.Lib;
 
 namespace Student_WebAdmin.Controllers
 {
@@ -22,7 +24,7 @@ namespace Student_WebAdmin.Controllers
         public async Task<IActionResult> Index()
         {
             var res = await _s_person.getCountPersonByPersonType(_accessToken);
-            ViewData["data"] = res.data;
+            ViewBag.data = res.data;
             return View();
         }
 

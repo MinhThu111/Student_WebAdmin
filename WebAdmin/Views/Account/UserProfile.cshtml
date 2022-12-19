@@ -10,7 +10,9 @@
             fullName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name)?.Value,
             avatar = User.Claims.FirstOrDefault(c => c.Type == "Avatar")?.Value,
             roles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Select(x => x.Value).ToList(),
-            email = User.Claims.FirstOrDefault(c => c.Type == "Email")?.Value
+            email = User.Claims.FirstOrDefault(c => c.Type == "Email")?.Value,
+            firstName=User.Claims.FirstOrDefault(c=>c.Type=="FirstName").Value,
+            lastName=User.Claims.FirstOrDefault(c=>c.Type=="LastName").Value
         };
     }
 }
@@ -26,13 +28,13 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item">
-                                <a asp-controller="Home" asp-action="Index" ><i class='bx bx-home-alt'></i></a>
+                                <a asp-controller="Home" asp-action="Index"><i class='bx bx-home-alt'></i></a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">User Profile</li>
                         </ol>
                     </nav>
                 </div>
-                
+
             </div>
             <!--end breadcrumb-->
             <div class="user-profile-page">
@@ -59,7 +61,7 @@
                                         <tbody>
                                             <tr>
                                                 <th>Age:</th>
-                                                <td>27</td>
+                                                <td></td>
                                             </tr>
                                             <tr>
                                                 <th>Email:</th>
@@ -68,12 +70,11 @@
                                         </tbody>
                                     </table>
                                     <div class="mb-3 mb-lg-0">
-                                        <a href="javascript:;" class="btn btn-sm btn-link"><i class='bx bxl-github'></i></a>
-                                        <a href="javascript:;" class="btn btn-sm btn-link"><i class='bx bxl-twitter'></i></a>
-                                        <a href="javascript:;" class="btn btn-sm btn-link"><i class='bx bxl-facebook'></i></a>
-                                        <a href="javascript:;" class="btn btn-sm btn-link"><i class='bx bxl-linkedin'></i></a>
-                                        <a href="javascript:;" class="btn btn-sm btn-link"><i class='bx bxl-dribbble'></i></a>
-                                        <a href="javascript:;" class="btn btn-sm btn-link"><i class='bx bxl-stack-overflow'></i></a>
+                                        <a href="https://github.com/" class="btn btn-sm btn-link"><i class='bx bxl-github'></i></a>
+                                        <a href="https://twitter.com/" class="btn btn-sm btn-link"><i class='bx bxl-twitter'></i></a>
+                                        <a href="https://www.facebook.com/" class="btn btn-sm btn-link"><i class='bx bxl-facebook'></i></a>
+                                        <a href="https://www.linkedin.com/" class="btn btn-sm btn-link"><i class='bx bxl-linkedin'></i></a>
+                                        <a href="https://stackoverflow.com/" class="btn btn-sm btn-link"><i class='bx bxl-stack-overflow'></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +101,7 @@
                                         <tbody>
                                             <tr>
                                                 <th>Age:</th>
-                                                <td></td>
+                                                <td>27</td>
                                             </tr>
                                             <tr>
                                                 <th>Email</th>
@@ -118,153 +119,65 @@
                             </li>
                         </ul>
                         <div class="tab-content mt-3">
-                            <div  id="Edit-Profile"  class="panel-collapse collapse">
+                            <div id="Edit-Profile" class="panel-collapse collapse">
                                 <div class="card shadow-none border mb-0 radius-15">
                                     <div class="card-body">
                                         <div class="form-body">
-                                            <div class="row">
-                                                <div class="col-12 col-lg-5 border-right">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>First Name</label>
-                                                            <input type="text" value="Svetlana" class="form-control">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-5 border-right">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Họ</label>
+                                                                <input type="text" value=@account.lastName class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Tên</label>
+                                                                <input type="text" value=@account.firstName class="form-control">
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group col-md-6">
-                                                            <label>Last Name</label>
-                                                            <input type="text" value="Anyukova" class="form-control">
+                                                        <div class="form-group">
+                                                            <label>Mật Khẩu</label>
+                                                            <input type="password" value="1234560000" class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Email</label>
+                                                            <input type="text" value=@account.email class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Số điện thoại</label>
+                                                            <input type="text" value=@account.phoneNumber class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Địa chỉ</label>
+                                                            <input type="text" value="116-B, Cutela Colony, Sydney, Australia" class="form-control">
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Password</label>
-                                                        <input type="password" value="1234560000" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Email</label>
-                                                        <input type="text" value="svetlana1997@example.com" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Phone</label>
-                                                        <input type="text" value="99-10-XXX-XXX" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Address</label>
-                                                        <input type="text" value="116-B, Cutela Colony, Sydney, Australia" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Nation</label>
-                                                        <input type="text" value="Australia" class="form-control">
+                                                    <div class="col-12 col-lg-7">
+                                                        <div class="form-group">
+                                                            <label>Quốc tịch</label>
+                                                            <input type="text" value="Australia" class="form-control">
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Giới tính</label>
+                                                                <select class="form-control">
+                                                                    <option value="1">Nữ</option>
+                                                                    <option value="0">Khác</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Ngày sinh</label>
+                                                                <input type="date" class="form-control" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <input type="submit" class="btn btn-success" value="LƯU">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-7">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>Gender</label>
-                                                            <select class="form-control">
-                                                                <option>Male</option>
-                                                                <option>Female</option>
-                                                                <option>Other</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                            <label>Language</label>
-                                                            <select class="form-control">
-                                                                <option>English</option>
-                                                                <option>German</option>
-                                                                <option>French</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <p class="mb-0">Date of Birth</p>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-4">
-                                                            <select class="form-control">
-                                                                <option>January</option>
-                                                                <option>February</option>
-                                                                <option selected>March</option>
-                                                                <option>April</option>
-                                                                <option>May</option>
-                                                                <option>June</option>
-                                                                <option>July</option>
-                                                                <option>August</option>
-                                                                <option>September</option>
-                                                                <option>October</option>
-                                                                <option>November</option>
-                                                                <option>December</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group col-md-4">
-                                                            <select class="form-control">
-                                                                <option>01</option>
-                                                                <option>02</option>
-                                                                <option>03</option>
-                                                                <option>04</option>
-                                                                <option>05</option>
-                                                                <option>06</option>
-                                                                <option>07</option>
-                                                                <option>08</option>
-                                                                <option>09</option>
-                                                                <option selected>10</option>
-                                                                <option>11</option>
-                                                                <option>12</option>
-                                                                <option>13</option>
-                                                                <option>14</option>
-                                                                <option>15</option>
-                                                                <option>16</option>
-                                                                <option>17</option>
-                                                                <option>18</option>
-                                                                <option>19</option>
-                                                                <option>20</option>
-                                                                <option>21</option>
-                                                                <option>22</option>
-                                                                <option>23</option>
-                                                                <option>24</option>
-                                                                <option>25</option>
-                                                                <option>26</option>
-                                                                <option>27</option>
-                                                                <option>28</option>
-                                                                <option>29</option>
-                                                                <option>30</option>
-                                                                <option>31</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group col-md-4">
-                                                            <select class="form-control">
-                                                                <option>1990</option>
-                                                                <option>1991</option>
-                                                                <option>1992</option>
-                                                                <option selected>1993</option>
-                                                                <option>1994</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>Twitter</label>
-                                                            <input type="text" class="form-control" value="https://twitter.com/anyukova">
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                            <label>Linked In</label>
-                                                            <input type="text" class="form-control" value="https://www.linkedin.com/anyukova/">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>Facebook</label>
-                                                            <input type="text" class="form-control" value="https://www.facebook.com/anyukova">
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                            <label>Dribbble</label>
-                                                            <input type="text" class="form-control" value="https://dribbble.com/anyukova/">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Slogan</label>
-                                                        <input type="text" class="form-control" value="Land Acquisition Specialist">
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -275,6 +188,7 @@
             </div>
         </div>
     </div>
-    <!--end page-content-wrapper-->
+</div>
+<!--end page-content-wrapper-->
 </div>
 <!--end page-wrapper-->

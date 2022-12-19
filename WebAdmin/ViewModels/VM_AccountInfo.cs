@@ -10,6 +10,10 @@
         public string email { get; set; }
         public string avatar { get; set; }
         public int? personId { get; set; }
+        public string phoneNumber { get; set; }
+        public string national { get; set; }
         public List<string> roles { get; set; }
+        public DateTime? birthDay { get; set; }
+        public int? gender { get; set; }
     }
 }

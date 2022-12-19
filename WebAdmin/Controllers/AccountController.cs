@@ -24,12 +24,17 @@ namespace Student_WebAdmin.Controllers
                     accessToken = "123",
                     accountType = "",
                     userName = model.userName,
+                    password= model.password,
                     personObj = new VM_Person
                     {
-                        firstName = "Admin",
-                        lastName = "01",
+                        firstName = "A",
+                        lastName = "Nguyen Van",
                         avatar = "/img/avatar.jpg",
-                        email="123@gmail.com"
+                        email="123@gmail.com",
+                        phonenumber="0123456789",
+                        national="Viet Nam",
+                        gender='1',
+                        
                     }
                 };
             }
@@ -99,8 +104,9 @@ namespace Student_WebAdmin.Controllers
             return View();
         }
         [HttpGet]
-        public async Task<IActionResult>UserProfile(int? id)
+        public async Task<IActionResult>UserProfile()
         {
+            var personId = ClaimsExtensionMethod.GetClaim(HttpContext, "UserId");
             return View();
         }
         //[HttpPost,ValidateAntiForgeryToken]
