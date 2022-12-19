@@ -1,7 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@section Styles{
+    <partial name="_P_StylesTableAndFormBasic" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.uikit.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+}
+@section Scripts{
+    <partial name="_P_ScriptsTableAndFormBasic" />
+    <script src="~/assets/plugins/select2/js/select2.min.js"></script>
+    <script src="~/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <script src="~/controller/student_manage.js" asp-append-version="true"></script>
+}
 <div class="page-wrapper">
     <div class="page-content-wrapper">
         <div class="page-content">

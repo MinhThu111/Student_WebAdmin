@@ -7,6 +7,7 @@ namespace Student_WebAdmin.Services
     public interface IS_Person
     {
         Task<ResponseData<List<M_Person>>> getListPerson(string accessToken);
+        Task<ResponseData<List<M_Person>>> getCountPersonByPersonType(string accessToken);
         Task<ResponseData<List<M_Person>>> getListPersonByConditionSequenceStatus(string accessToken, string sequenceStatus, string name, DateTime? fdate, DateTime? tdate);
         Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus, string lstpersontypeid);
         Task<ResponseData<M_Person>> getPersonById(string accessToken, int id);
@@ -29,6 +30,11 @@ namespace Student_WebAdmin.Services
         public async Task<ResponseData<List<M_Person>>> getListPerson(string accessToken)
         {
             return await _callApi.GetResponseDataAsync<List<M_Person>>("/Person/getListPerson", default(Dictionary<string, dynamic>), accessToken);
+        }
+
+        public async Task<ResponseData<List<M_Person>>> getCountPersonByPersonType(string accessToken)
+        {
+            return await _callApi.GetResponseDataAsync<List<M_Person>>("/Person/getCountPersonByPersonType", default(Dictionary<string, dynamic>), accessToken);
         }
         //public async Task<ResponseData<List<M_Person>>> getListPerson(string accessToken)
         //{
