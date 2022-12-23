@@ -16,11 +16,13 @@ namespace Student_WebAdmin.Models
         public int? religionId { get; set; }
         public int? folkId { get; set; }
         public int? addressId { get; set; }
+        public string avatarUrl { get; set; }
         public string phoneNumber { get; set; }
         public string email { get; set; }
         public string remark { get; set; }
         public M_Nationality nationalityObj { get; set; }
         public M_PersonType personTypeObj { get; set; }
+        public EM_Address addressObj { get; set; }
 
     }
     public class EM_Person:M_BaseModel.BaseCustom
@@ -38,6 +40,7 @@ namespace Student_WebAdmin.Models
         public int? religionId { get; set; }
         public int? folkId { get; set; }
         public int? addressId { get; set; }
+        public string avatarUrl { get; set; }
         public string phoneNumber { get; set; }
    
         [DataType(DataType.EmailAddress)]
@@ -54,5 +57,8 @@ namespace Student_WebAdmin.Models
         public int? gender { get; set; }
         public string email { get; set; }
         public string avatar { get; set; }
+        public string phonenumber { get; set; }
+        public string national { get; set; }
+        public DateTime? birthDay { get; set; }
     }
 }

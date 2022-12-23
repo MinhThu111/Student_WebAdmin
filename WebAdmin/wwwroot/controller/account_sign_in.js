@@ -21,7 +21,7 @@ $(document).ready(function () {
                     ShowToastNoti('error', '', 'Bạn không có quyền đăng nhập hệ thống!', 3000, 'topCenter');
                 } else if (response.result === 1) { //Is success
                     ShowToastNoti('success', '', 'Đăng nhập thành công. Đang chuyển hướng...', 4000, 'topCenter');
-                    location.href = '/Home/Index';
+                    location.href = '/';
                 } else { //Fail
                     CheckResponseIsSuccess(response);
                 }

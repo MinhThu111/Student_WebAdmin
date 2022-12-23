@@ -1,12 +1,12 @@
 $(function () {
 	"use strict";
 	// search bar
-	$(".search-btn-mobile").on("click", function () {
-		$(".search-bar").addClass("full-search-bar");
-	});
-	$(".search-arrow-back").on("click", function () {
-		$(".search-bar").removeClass("full-search-bar");
-	});
+	//$(".search-btn-mobile").on("click", function () {
+	//	$(".search-bar").addClass("full-search-bar");
+	//});
+	//$(".search-arrow-back").on("click", function () {
+	//	$(".search-bar").removeClass("full-search-bar");
+	//});
 	$(document).ready(function () {
 		$(window).on("scroll", function () {
 			if ($(this).scrollTop() > 300) {
@@ -129,5 +129,5 @@ $(function () {
 	});
 });
 /* perfect scrol bar */
-new PerfectScrollbar('.header-message-list');
-new PerfectScrollbar('.header-notifications-list');
+//new PerfectScrollbar('.header-message-list');
+//new PerfectScrollbar('.header-notifications-list');

@@ -1,12 +1,19 @@
-﻿@section Styles{
+﻿@{
+    ViewData["Title"] = "Student";
+}
+@section Styles{
     <partial name="_P_StylesTableAndFormBasic" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.uikit.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
 }
 @section Scripts{
     <partial name="_P_ScriptsTableAndFormBasic" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="~/assets/plugins/select2/js/select2.min.js"></script>
+    <script src="~/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
     <script src="~/controller/student_manage.js" asp-append-version="true"></script>
-    <script src="~/assets/libs/select2/js/select2.min.js"></script>
-    <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" />
 }
 
 <div class="wrapper">
@@ -16,66 +23,70 @@
                 <div class="card radius-15">
                     <div class="card-body">
                         <div class="card-title">
-                            <h5 class="mb-0">Manage Student </h5>
+                            <h5 class="mb-0">QUẢN LÝ SINH VIÊN</h5>
                         </div>
                         <hr />
-                        <div class="col-xl-3 col-lg-2 col-md-6 mb-1 px-1">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text">
-                                        <i class="material-icons">&#xf05e;</i>Trạng thái
+                        <div>
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <label class="col-md-auto mb-1 px-1 input-group-text rounded-start" for="select_search_status">
+                                        Trạng thái
                                     </label>
-                                    <select id="select_search_status" class="selectpicker show-tick form-control "
-                                            onchange="SearchStatus()" data-style="btn-white btn-sm"
-                                            data-live-search="false" data-size="2">
-                                        <option value="0,1">--Tất cả--</option>
-                                        <option class="text-success" value="1">Mở</option>
-                                        <option class="text-warning" value="0">Khóa</option>
-                                    </select>
                                 </div>
+                                <select id="select_search_status" class="col-md-auto rounded-end mb-1 px-1"
+                                        onchange="SearchStatus()"
+                                        data-live-search="false">
+                                    <option value="0,1">--Tất cả--</option>
+                                    <option class="text-success" value="1">Mở</option>
+                                    <option class="text-warning" value="0">Khóa</option>
+                                </select>
+                                <div class="input-group-append pl-2">
+                                    <label class="col-md-auto mb-1 px-1 input-group-text rounded-start" for="select_search_persontype">
+                                        Nghề nghiệp
+                                    </label>
+                                </div>
+                                <select id="select_search_persontype" onchange="SearchStatus()"
+                                        data-live-search="false"
+                                        class="col-md-auto rounded-end mb-1 px-1">
+                                    <option value="1,2">--Tất cả--</option>
+                                    <option class="text-success" value="1">Sinh viên</option>
+                                    <option class="text-warning" value="2">Giảng viên</option>
+                                </select>
+                                <div class="col-12 col-lg-auto">
+                                    <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xE147;</i> <span>THÊM</span></a>
+                                    <button class="btn btn-outline-dark" onclick="LoadDataTable()"><i class="material-icons">&#xe5d5;</i> <span>TẢI LẠI</span></button>
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-auto mb-1 px-1">
-                            <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xE147;</i> <span>Add New Student</span></a>
-                            <button class="btn btn-outline-dark" onclick="LoadDataTable()"><i class="material-icons">&#xe5d5;</i> <span>Load</span></button>
-                        </div>
-                        <div class="table-responsive">
 
-                            <table class="table mb-0 w-100" id="table_main">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Stt</th>
-                                        <th>Name</th>
-                                        <th>Gender</th>
-                                        <th>Birthday</th>
-                                        <th>Email</th>
-                                        <th>Career</th>
-                                        <th>Nationality</th>
-                                        <th>Status</th>
-                                        <th>Acction</th>
-                                    </tr>
-                                </thead>
-                                <tfoot class="thead-dark">
-                                    <tr>
-                                        <th>Stt</th>
-                                        <th>Name</th>
-                                        <th>Gender</th>
-                                        <th>Birthday</th>
-                                        <th>Email</th>
-                                        <th>Career</th>
-                                        <th>Nationality</th>
-                                        <th>Status</th>
-                                        <th>Acction</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+
                         </div>
+                    </div>
+                    @*<img src="" />*@
+                    <div class="table-responsive pl-2">
+
+                        <table class="table mb-0 w-100 uk-table uk-table-hover uk-table-striped uk-table-middle table-bordered" id="table_main">
+                            <thead>
+                                <tr style="background-color: rgb(78, 173, 207)">
+                                    <th class="text-white">Stt</th>
+                                    <th class="text-white">Họ và tên</th>
+                                    <th class="text-white">Giới tính</th>
+                                    <th class="text-white">Ngày sinh</th>
+                                    <th class="text-white">Địa chỉ Email</th>
+                                    <th class="text-white">Ảnh</th>
+                                    <th class="text-white">Trang thái</th>
+                                    <th class="text-white"></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="card-body card_background_detail" id="div_view_panel" style="display:none;"></div>
         </div>
+        <div class="card-body card_background_detail" id="div_view_panel" style="display:none;"></div>
     </div>
+</div>
 
 </div>

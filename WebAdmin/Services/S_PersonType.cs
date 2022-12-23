@@ -8,7 +8,7 @@ namespace Student_WebAdmin.Services
     {
         Task<ResponseData<List<M_PersonType>>> getListPersonType(string accessToken);
         Task<ResponseData<List<M_PersonType>>> getListPersonTypeByConditionSequenceStatus(string accessToken, string sequenceStatus, string name, DateTime? fdate, DateTime? tdate);
-        Task<ResponseData<List<M_PersonType>>> getListPersonTypeBySequenceStatus(string accessToken, string sequenceStatus);
+        Task<ResponseData<List<M_PersonType>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus);
         Task<ResponseData<M_PersonType>> getPersonTypeById(string accessToken, int id);
         Task<ResponseData<M_PersonType>> Create(string accessToken, EM_PersonType model, string createdBy);
         Task<ResponseData<M_PersonType>> Update(string accessToken, EM_PersonType model, string updatedBy);
@@ -26,6 +26,14 @@ namespace Student_WebAdmin.Services
         public async Task<ResponseData<List<M_PersonType>>> getListPersonType(string accessToken)
         {
             return await _callApi.GetResponseDataAsync<List<M_PersonType>>("/PersonType/getlistPersonType", default(Dictionary<string, dynamic>), accessToken);
+        }
+        public async Task<ResponseData<List<M_PersonType>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus)
+        {
+            Dictionary<string, dynamic> dictPars = new Dictionary<string, dynamic>
+            {
+                {"sequenceStatus", sequenceStatus},
+            };
+            return await _callApi.GetResponseDataAsync<List<M_PersonType>>("/PersonType/getListPersonBySequenceStatus", dictPars, accessToken);
         }
         //public async Task<ResponseData<List<M_PersonType>>> getListPerson(string accessToken)
         //{

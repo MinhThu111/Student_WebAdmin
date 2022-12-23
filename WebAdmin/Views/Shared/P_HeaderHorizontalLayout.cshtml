@@ -9,11 +9,10 @@
             fullName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name)?.Value,
             avatar = User.Claims.FirstOrDefault(c => c.Type == "Avatar")?.Value,
             roles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Select(x => x.Value).ToList(),
-            
+
         };
     }
 }
-
 
 <header class="top-header">
     <nav class="navbar navbar-expand">
@@ -31,49 +30,36 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" asp-controller="Account" asp-action="UserProfile/1">
-                                <i class="bx bx-user"></i><span>Profile</span>
+                            <a class="dropdown-item" asp-controller="Account" asp-action="UserProfile">
+                                <i class="bx bx-user"></i><span>Hồ sơ</span>
                             </a>
-                            
+
                             <div class="dropdown-divider mb-0"></div>
-                            <a  class="dropdown-item" asp-controller="Account" asp-action="LogOut">
-                                <i class='bx bx-log-out'></i><span>Logout</span></a>
+                            <a class="dropdown-item" asp-controller="Account" asp-action="LogOut">
+                                <i class='bx bx-log-out'></i><span>Đăng xuất</span>
+                            </a>
                         </div>
                     </li>
                 }
                 else
                 {
-            <li class="nav-item">
-                <a asp-area="" asp-controller="Account" asp-action="LogIn" class="text-decoration-none">
-                    <div class="media user-box align-items-center">
-                        <div class="media-body user-info">
-                            <p class="user-name mb-0">
-                                Login
-                            </p>
-                        </div>
-                        <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909__340.png" class="user-img" alt="user avatar">
-                    </div>
-                </a>
-            </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Account" asp-action="LogIn" class="text-decoration-none">
+                            <div class="media user-box align-items-center">
+                                <div class="media-body user-info">
+                                    <p class="user-name mb-0">
+                                        Đăng nhập
+                                    </p>
+                                </div>
+                                <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909__340.png" class="user-img" alt="user avatar">
+                            </div>
+                        </a>
+                    </li>
                 }
 
             </ul>
         </div>
     </nav>
 </header>
-<script>
-    function ShowEditModal(id) {
-        let text = $(elm).html();
-        $(elm).attr('disabled', true); $(elm).html(_loadAnimationSmallHtml);
-        $.get(`/Account/UserProfile/${id}`).done(function (response) {
-            $(elm).attr('disabled', false); $(elm).html(text);
-            if (response.result === 0 || response.result === -1) {
-                CheckResponseIsSuccess(response); return false;
-            }
-        }).fail(function (err) {
-            $(elm).attr('disabled', false); $(elm).html(text);
-            CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
-        });
-    }
 
-</script>
+

@@ -5,82 +5,53 @@
             <div class="page-content">
                 <div class="card radius-15">
                     <div class="card-body">
-                        <form asp-action="P_Add" id="form_data" asp-antiforgery="true">
+                        <form>
                             <div class="row border-0">
-                                <div class="modal-header border-0">
+                                @*<div class="modal-header border-0">
                                     <h4 class="modal-title">THÊM</h4>
-                                </div>
+                                </div>*@
                                 <div class="col-12 col-lg-6 border-right">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label class="control-label">Họ</label>
-                                            <input asp-for="lastName" class="form-control" placeholder="Họ">
+                                            <input asp-for="lastName" class="form-control" placeholder="Họ" readonly>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="control-label">Tên</label>
-                                            <input asp-for="firstName" class="form-control " placeholder="Tên">
+                                            <input asp-for="firstName" class="form-control " placeholder="Tên" readonly>
                                         </div>
                                     </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6" >
-                                            <label class="control-label">Ảnh</label>
-                                            <input asp-for="avatarUrl" class="form-control" type="url" id="file-ip-1" onchange="showPreview(this,event);" >
-                                        </div>
-                                        <div class="form-group col-md-auto">
-                                            <label class="control-label"></label>
-                                            <img id="file-ip-1-preview" width="250" height="200" src="~/img/none_img.png" />
-                                        </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Ảnh</label>
+                                        <img asp-for="avatarUrl" class="form-control" readonly/>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Ngày sinh</label>
-                                        <input asp-for="birthDay" class="form-control" type="date">
+                                        <input asp-for="birthDay" class="form-control" type="date" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Giới tính</label>
-                                        <div class="pretty p-icon p-round">
-                                            <input asp-for="gender" type="radio" value="0" checked />
-                                            <div class="state p-primary-o">
-                                                <i class="icon mdi mdi-check"></i>
-                                                <label asp-for="gender">Nam</label>
-                                            </div>
-                                        </div>
-                                        <div class="pretty p-icon p-round">
-                                            <input asp-for="gender" type="radio" value="0" />
-                                            <div class="state p-primary-o">
-                                                <i class="icon mdi mdi-check"></i>
-                                                <label asp-for="gender">Nữ</label>
-                                            </div>
-                                        </div>
+                                        <input asp-for="gender" class="form-control" readonly>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="control-label">Nghề nghiệp</label>
-                                        <select asp-for="personTypeId" asp-items="ViewBag.PersonTypeId" class="form-control select2" style="width:100%">
-                                            <option value="0">--Chọn--</option>
-                                        </select>
+                                        <input asp-for="personTypeId" class="form-control" readonly>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">Tôn giáo</label>
-                                        <select asp-for="religionId" asp-items=" ViewBag.ReligionId" class="form-control select2" style="width:100%">
-                                            <option value="0">--Chọn--</option>
-                                        </select>
+                                        <input asp-for="religionId" class="form-control" readonly>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">Dân tộc</label>
-                                        <select asp-for="folkId" asp-items="ViewBag.FolkId" class="form-control select2" style="width:100%">
-                                            <option value="0">--Chọn--</option>
-                                        </select>
+                                        <input asp-for="folkId" class="form-control" readonly>
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-6">
-
                                     <div class="form-group">
                                         <label class="control-label">Quốc tịch</label>
-                                        <select asp-for="nationalityId" asp-items="ViewBag.NationalityId" class="form-control select2" style="width:100%">
-                                            <option value="0">--Chọn--</option>
-                                        </select>
+                                        <input asp-for="nationalityId" class="form-control" readonly>
                                     </div>
                                     <div class="form-group" id="div_form_province">
                                         <span class="has-float-label">
@@ -111,12 +82,9 @@
                                         </span>
                                     </div>
                                     <div class="form-group">
-                                        <span class="has-float-label">
                                             <label asp-for="addressObj.addressText">Số nhà/tổ/khu phố</label>
-                                            <input asp-for="addressObj.addressText" class="form-control" maxlength="150" placeholder="eg: C20 Hẻm số 40 Đường Nguyễn Du" />
+                                            <input asp-for="addressObj.addressText" class="form-control" />
 
-                                        </span>
-                                        <span asp-validation-for="addressObj.addressText" class="invalid-feedback"></span>
                                     </div>
 
                                     <div class="form-group">

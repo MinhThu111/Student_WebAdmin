@@ -10,20 +10,30 @@ $(document).ready(function () {
     LoadDataTable();
 
 });
-const buttonActionHtml = function (id, status, timer) {
-    let html = ``;
-    html += `<button type="button" class="btn btn-sm btn-outline-secondary " onclick="ShowEditModal(this,${id})" title="${_buttonResource.Edit}"><i class='bx bx-edit'></i></button> `;
-    html += `<button type="button" class="btn btn-sm btn-outline-secondary" onclick="Delete(${id})" title="${_buttonResource.Delete}" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button> `;
-  
-    if (parseInt(status) != -1) {
-        switch (parseInt(status)) {
-            case 0: html += `<button type="button" class="btn btn-sm btn-outline-warning text-secondary" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-lock"></i></button>`; break;
-            case 1: html += `<button type="button" class="btn btn-sm btn-outline-secondary text-info" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-unlock"></i></button>`; break;
-            default: break;
-        }
-    }
-    return html;
-}
+const viewDataHtml = function (data, id) {
+    let name = id == '1' ? 'Student' : 'Teacher';
+    let htmls = '';
+    htmls += `<div class="col-12 col-lg-4">
+							<div class="card radius-15">
+								<div class="card-body">
+									<div class="d-flex mb-2">
+										<div>
+											<p class="mb-0 font-weight-bold">${name}</p>
+											<h2 class="mb-0">${data}</h2>
+										</div>
+										<div class="ml-auto align-self-end">
+											<p class="mb-0 font-14 text-primary"><i class='bx bxs-up-arrow-circle'></i>  <span>1.01% 31 days ago</span>
+											</p>
+										</div>
+									</div>
+									<div id="chart1"></div>
+								</div>
+							</div>
+						</div>`
+                       
+
+    return htmls;
+};
 const statusHtml = function (status) {
     let html = '';
     switch (parseInt(status)) {
@@ -38,11 +48,8 @@ const statusHtml = function (status) {
 const dataParamsTable = function (method = 'GET') {
     return {
         type: method,
-        url: '/Student/GetList',
+        url: '/Home/GetList',
         data: function (d) {
-            d.status = $selectSearchStatus.val();
-            d.lstpersontypeid = $selectSearchPersontype.val();
-            //console.log(d.status);
         },
         dataType: 'json',
         beforeSend: function () {
@@ -51,8 +58,9 @@ const dataParamsTable = function (method = 'GET') {
         dataSrc: function (response) {
             //laddaSearch.stop();
             console.log(response.data);
-            if (CheckResponseIsSuccess(response) && response.data != null)
+            if (CheckResponseIsSuccess(response) && response.data != null) {          
                 return response.data;
+            }
             return [];
         },
         error: function (err) {
@@ -66,47 +74,13 @@ const dataParamsTable = function (method = 'GET') {
 const columnTable = function () {
     return [
         {
-            title: "STT",
-            data: null,
-            render: (data, type, row, meta) => ++meta.row,
-            className: "text-center font-weight-normal text-dark"
-        },
-        {
             data: "id",
-            render: (data, type, row, meta) => `<a class="text-dark font-weight-normal" onclick="ShowViewModal(this, '${row.id}')" href="javascript:void(0);">${row.lastName} ${row.firstName}</a>`,
+            render: (data, type, row, meta) => data == '1' ? 'Student' : 'Teacher',
             className: "text-nowrap text-dark font-weight-normal"
         },
         {
-            data: "gender",
-            render: (data) => data == '0' ? 'Nam' : 'Nữ',
+            data: "name",
             className: "text-nowrap text-dark font-weight-normal"
-        },
-        {
-            data: "birthDay",
-            render: (data) => new Date(data).toLocaleDateString(),
-            className: "text-nowrap text-dark font-weight-normal",
-        },
-        {
-            data: "email",
-            className: "text-nowrap text-dark font-weight-normal"
-        },
-        {
-            data: "avatarUrl",
-            render: (data, type, row, meta) => IsNullOrEmty(data) ? '' : `<img class="img img-thumbnail" src="${data}" style="width:90%;height:90%;object-fit:cover;" alt="avatar" ${_imageErrorUrl.square}' />`,
-            className: "text-center text-nowrap",
-        },
-
-        {
-            data: "status",
-            render: (data, type, row, meta) => statusHtml(data),
-            className: "text-center text-dark font-weight-normal",
-        },
-        {
-            data: "id",
-            render: (data, type, row, meta) => buttonActionHtml(data, row.status, row.timer),
-            orderable: false,
-            searchable: false,
-            className: "text-center "
         }
     ];
 }
@@ -117,6 +91,10 @@ function LoadDataTable(method = 'GET') {
     if (dataTable) dataTable.ajax.reload(null, true);
     dataTable = $tableMain.DataTable({
         search: false,
+        searching: false,
+        ordering: false,
+        paging: false,
+        info:false,
         lengthChange: true,
         lengthMenu: _lengthMenuResource,
         colReorder: { allowReorder: false },
@@ -269,7 +247,7 @@ function InitSubmitAddForm() {
                 ShowToastNoti('success', '', _resultActionResource.AddSuccess);
                 BackToTable('#div_main_table', '#div_view_panel');
                 if (CheckNewRecordIsAcceptAddTable(response.data)) ChangeUIAdd(dataTable, response.data);
-                
+
             }, error: function (err) {
                 laddaSubmitForm.stop();
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
@@ -328,7 +306,7 @@ function ChangeStatus(elm, e, id, timer) {
             data: {
                 id: id,
                 //status: isChecked ? 1 : 0,
-                status: _status == 1 ? 0 : 1  ,
+                status: _status == 1 ? 0 : 1,
                 timer: timer
             },
             dataType: 'json',
@@ -346,7 +324,7 @@ function ChangeStatus(elm, e, id, timer) {
                         limitReachedClass: "badge badge-danger"
                     });
                 }, 500);
-                
+
             }, error: function (err) {
                 $(elm).attr('onclick', `ChangeStatus(this, event, ${id}, '${timer}')`);
                 CheckResponseIsSuccess({ result: -1, error: { code: err.status } });
@@ -412,7 +390,7 @@ function LoadDistrict(elm, divElm, formElm) {
     let $districtSelect = $(formElm).find('[name="addressObj.districtId"]');
     let $wardSelect = $(formElm).find('[name="addressObj.wardId"]');
 
-   /* $wardSelect.html(FIRST_OPTION);*/
+    /* $wardSelect.html(FIRST_OPTION);*/
     $wardSelect.val('0');
     if (parseInt(value) === 0) {
         $districtSelect.html('');
@@ -436,7 +414,7 @@ function LoadDistrict(elm, divElm, formElm) {
                 $.map(response.data, function (item) {
                     html += `<option value="${item.id}">${item.name}</option>`;
                 });
-              /*  $districtSelect.html(FIRST_OPTION + html);*/
+                /*  $districtSelect.html(FIRST_OPTION + html);*/
                 $districtSelect.html(html);
                 $districtSelect.attr('disabled', false);
                 $districtSelect.val($districtSelect.children('option:not(.bs-title-option)').eq(0).val());

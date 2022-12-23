@@ -1,5 +1,6 @@
 ﻿using Student_WebAdmin.Lib;
 using Student_WebAdmin.Models;
+using Student_WebAdmin.ViewModels;
 using System;
 
 namespace Student_WebAdmin.Services
@@ -7,9 +8,11 @@ namespace Student_WebAdmin.Services
     public interface IS_Person
     {
         Task<ResponseData<List<M_Person>>> getListPerson(string accessToken);
+        Task<ResponseData<List<M_Count>>> getCountPersonByPersonType(string accessToken);
         Task<ResponseData<List<M_Person>>> getListPersonByConditionSequenceStatus(string accessToken, string sequenceStatus, string name, DateTime? fdate, DateTime? tdate);
-        Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus);
+        Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus, string lstpersontypeid);
         Task<ResponseData<M_Person>> getPersonById(string accessToken, int id);
+       
         Task<ResponseData<M_Person>> Create(string accessToken, EM_Person model, string createdBy);
         Task<ResponseData<M_Person>> Update(string accessToken, EM_Person model, string updatedBy);
         Task<ResponseData<M_Person>> Delete(string accessToken, int id, string updatedBy);
@@ -29,6 +32,11 @@ namespace Student_WebAdmin.Services
         {
             return await _callApi.GetResponseDataAsync<List<M_Person>>("/Person/getListPerson", default(Dictionary<string, dynamic>), accessToken);
         }
+
+        public async Task<ResponseData<List<M_Count>>> getCountPersonByPersonType(string accessToken)
+        {
+            return await _callApi.GetResponseDataAsync<List<M_Count>>("/Person/getCountPersonByPersonType", default(Dictionary<string, dynamic>), accessToken);
+        }
         //public async Task<ResponseData<List<M_Person>>> getListPerson(string accessToken)
         //{
         //    return await _callApi.GetResponseDataAsync<List<M_Person>>("Person/getListPerson", default(Dictionary<string, dynamic>), accessToken);
@@ -44,11 +52,12 @@ namespace Student_WebAdmin.Services
             };
             return await _callApi.GetResponseDataAsync<List<M_Person>>("Person/getListPersonByConditionSequenceStatus", dictPars, accessToken);
         }
-        public async Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus)
+        public async Task<ResponseData<List<M_Person>>> getListPersonBySequenceStatus(string accessToken, string sequenceStatus, string lstpersontypeid)
         {
             Dictionary<string, dynamic> dictPars = new Dictionary<string, dynamic>
             {
                 {"sequenceStatus", sequenceStatus},
+                {"lstpersontypeid",lstpersontypeid }
             };
             return await _callApi.GetResponseDataAsync<List<M_Person>>("/Person/getListPersonBySequenceStatus", dictPars, accessToken);
         }
@@ -60,9 +69,9 @@ namespace Student_WebAdmin.Services
             };
             return await _callApi.GetResponseDataAsync<M_Person>("/Person/getPersonById", dictPars, accessToken);
         }
+        
         public async Task<ResponseData<M_Person>> Create(string accessToken, EM_Person model, string createdBy)
         {
-
             var cAddress = await _s_Address.Create(accessToken, model.addressObj, createdBy);
             model.addressId = cAddress.data.Id;
 
@@ -71,14 +80,14 @@ namespace Student_WebAdmin.Services
                 {"firstName", model.firstName},
                 {"lastName", model.lastName},
                 {"personTypeId",model.personTypeId },
-                { "birthDay", model.birthDay},
+                { "birthDay", model.birthDay?.ToString("O")},
                 {"gender", model.gender},
                 {"nationalityId",model.nationalityId }, 
                 {"religionId",model.religionId },
                 {"folkId",model.folkId },
                 {"addressId",model.addressId },
                 {"phoneNumber",model.phoneNumber },
-                {"email", model.email},
+                {"email", model.email}
                 //{"createdBy", createdBy},
             };
             return await _callApi.PostResponseDataAsync<M_Person>("/Person/Create", dictPars, accessToken);
@@ -113,15 +122,16 @@ namespace Student_WebAdmin.Services
             Dictionary<string, dynamic> dictPars = new Dictionary<string, dynamic>
             {
                 {"id", model.id},
-                {"firstName", model.firstName},
-                {"lastName", model.lastName},
+                {"firstname", model.firstName},
+                {"lastname", model.lastName},
                 {"gender", model.gender},
-                {"phoneNumber", model.phoneNumber},
-                {"status", model.status},
-                {"updatedBy", updatedBy},
+                {"persontypeid",model.personTypeId },
                 {"timer", model.timer?.ToString("O")},
-                {"addressId",model.addressId },
-                {"personId",model.personTypeId }
+                {"status", model.status},
+                {"addressid",model.addressId },
+                {"phonenumber", model.phoneNumber},
+                {"email", model.email}
+                //{"updatedBy", updatedBy}
             };
             return await _callApi.PutResponseDataAsync<M_Person>("/Person/Update", dictPars, accessToken);
         }
