@@ -88,6 +88,8 @@ builder.Services.AddScoped<IS_Nationality, S_Nationality>();
 builder.Services.AddScoped<IS_Religion, S_Religion>();
 builder.Services.AddScoped<IS_Folk, S_Folk>();
 builder.Services.AddScoped<IS_Address, S_Address>();
+builder.Services.AddScoped<IS_News, S_News>();
+builder.Services.AddScoped<IS_NewsCategory, S_NewsCategory>();
 
 
 var app = builder.Build();

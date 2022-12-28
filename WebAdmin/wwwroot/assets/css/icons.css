@@ -3838,7 +3838,7 @@ File: app.css
 
 }
 
-.bx-news:before {
+.bx-Student:before {
 
 	content: "\eb01";
 
@@ -7930,7 +7930,7 @@ File: app.css
 
 }
 
-.bxs-news:before {
+.bxs-Student:before {
 
 	content: "\edab";
 
@@ -11353,7 +11353,7 @@ icons
 
 }
 
-.lni-hacker-news::before {
+.lni-hacker-Student::before {
 
 	content: "\eb03";
 

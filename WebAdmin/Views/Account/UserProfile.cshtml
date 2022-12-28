@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Student_WebAdmin.ViewModels.VM_AccountInfo account = new Student_WebAdmin.ViewModels.VM_AccountInfo();
     if (User.Identity.IsAuthenticated)
     {
@@ -11,17 +10,15 @@
             avatar = User.Claims.FirstOrDefault(c => c.Type == "Avatar")?.Value,
             roles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Select(x => x.Value).ToList(),
             email = User.Claims.FirstOrDefault(c => c.Type == "Email")?.Value,
-            firstName=User.Claims.FirstOrDefault(c=>c.Type=="FirstName").Value,
-            lastName=User.Claims.FirstOrDefault(c=>c.Type=="LastName").Value
+            firstName=User.Claims.FirstOrDefault(c=>c.Type=="FirstName")?.Value,
+            lastName=User.Claims.FirstOrDefault(c=>c.Type=="LastName")?.Value,
+            phoneNumber=User.Claims.FirstOrDefault(c=>c.Type=="PhoneNumber")?.Value,
         };
     }
 }
-
 <div class="page-wrapper">
-    <!--page-content-wrapper-->
     <div class="page-content-wrapper">
         <div class="page-content">
-            <!--breadcrumb-->
             <div class="page-breadcrumb d-none d-md-flex align-items-center mb-3">
                 <div class="breadcrumb-title pr-3">User Profile</div>
                 <div class="pl-3">
@@ -34,15 +31,12 @@
                         </ol>
                     </nav>
                 </div>
-
             </div>
-            <!--end breadcrumb-->
             <div class="user-profile-page">
                 <div class="card radius-15">
                     <div class="card-body">
                         @if (User.Identity.IsAuthenticated)
                         {
-
                             <div class="row">
                                 <div class="col-12 col-lg-7 border-right">
                                     <div class="d-md-flex align-items-center">
@@ -81,7 +75,6 @@
                         }
                         else
                         {
-
                             <div class="row">
                                 <div class="col-12 col-lg-7 border-right">
                                     <div class="d-md-flex align-items-center">
@@ -112,7 +105,6 @@
                                 </div>
                             </div>
                         }
-                        <!--end row-->
                         <ul class="nav nav-pills">
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="collapse" href="#Edit-Profile"><span class="p-tab-name">Edit Profile</span><i class='bx bx-message-edit font-24 d-sm-none'></i></a>
@@ -129,7 +121,7 @@
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
                                                                 <label>Họ</label>
-                                                                <input type="text" value=@account.lastName class="form-control">
+                                                                <input type="text" value="@account.lastName" class="form-control">
                                                             </div>
                                                             <div class="form-group col-md-6">
                                                                 <label>Tên</label>
@@ -171,7 +163,6 @@
                                                                 <input type="date" class="form-control" />
                                                             </div>
                                                         </div>
-
                                                         <div class="form-group">
                                                             <input type="submit" class="btn btn-success" value="LƯU">
                                                         </div>
@@ -189,6 +180,3 @@
         </div>
     </div>
 </div>
-<!--end page-content-wrapper-->
-</div>
-<!--end page-wrapper-->

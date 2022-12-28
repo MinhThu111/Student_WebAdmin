@@ -10,7 +10,6 @@ namespace Student_WebAdmin.ExtensionMethods
         {
             session.SetString(key, JsonSerializer.Serialize(value));
         }
-
         public static T GetObject<T>(this ISession session, string key)
         {
             var value = session.GetString(key);

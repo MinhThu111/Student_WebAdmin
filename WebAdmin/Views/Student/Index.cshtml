@@ -4,16 +4,15 @@
 @section Styles{
     <partial name="_P_StylesTableAndFormBasic" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link href="~/assets/css/dataTables.uikit.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.uikit.min.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
 }
 @section Scripts{
     <partial name="_P_ScriptsTableAndFormBasic" />
     <script src="~/assets/plugins/select2/js/select2.min.js"></script>
     <script src="~/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-    <script src="~/controller/student_manage.js" asp-append-version="true"></script>
+    <script src="~/controller/Student_manage.js" asp-append-version="true"></script>
 }
 
 <div class="wrapper">
@@ -27,34 +26,26 @@
                         </div>
                         <hr />
                         <div>
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    <label class="col-md-auto mb-1 px-1 input-group-text rounded-start" for="select_search_status">
-                                        Trạng thái
-                                    </label>
-                                </div>
-                                <select id="select_search_status" class="col-md-auto rounded-end mb-1 px-1"
+                            <div class="input-group" style="font-size:17px;">
+                                <select id="select_search_status" class="col-md-auto btn-outline-primary"
                                         onchange="SearchStatus()"
-                                        data-live-search="false">
+                                        data-live-search="false" style="font-size:17px; min-width:200px">
+                                    <option value="0,1">Trạng thái</option>
                                     <option value="0,1">--Tất cả--</option>
-                                    <option class="text-success" value="1">Mở</option>
-                                    <option class="text-warning" value="0">Khóa</option>
+                                    <option value="1">Mở</option>
+                                    <option value="0">Khóa</option>
                                 </select>
-                                <div class="input-group-append pl-2">
-                                    <label class="col-md-auto mb-1 px-1 input-group-text rounded-start" for="select_search_persontype">
-                                        Nghề nghiệp
-                                    </label>
-                                </div>
                                 <select id="select_search_persontype" onchange="SearchStatus()"
                                         data-live-search="false"
-                                        class="col-md-auto rounded-end mb-1 px-1">
+                                        class="col-md-auto btn-outline-success ml-3" style="font-size:17px; min-width:200px">
+                                    <option value="1,2">Nghề nghiệp</option>
                                     <option value="1,2">--Tất cả--</option>
-                                    <option class="text-success" value="1">Sinh viên</option>
-                                    <option class="text-warning" value="2">Giảng viên</option>
+                                    <option value="1">Sinh viên</option>
+                                    <option value="2">Giảng viên</option>
                                 </select>
                                 <div class="col-12 col-lg-auto">
-                                    <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xE147;</i> <span>THÊM</span></a>
-                                    <button class="btn btn-outline-dark" onclick="LoadDataTable()"><i class="material-icons">&#xe5d5;</i> <span>TẢI LẠI</span></button>
+                                    <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xea4d;</i> <span>THÊM</span></a>
+                                    <button class="btn btn-outline-dark ml-3" onclick="LoadDataTable()"><i class="material-icons">&#xe5d5;</i> <span>TẢI LẠI</span></button>
 
                                 </div>
                             </div>

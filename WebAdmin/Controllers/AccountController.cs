@@ -55,7 +55,10 @@ namespace Student_WebAdmin.Controllers
                 avatar = IsNullOrEmpty(res.data.personObj?.avatar) ? "https://www.shutterstock.com/image-vector/avatar-vector-male-profile-gray-260nw-538707355.jpg" : res.data.personObj?.avatar,
                 accessToken = res.data.accessToken,
                 stayLoggedIn = model.stayLoggedIn,
-                email=res.data.personObj.email
+                email=res.data.personObj.email,
+                firstname=res.data.personObj.firstName,
+                lastname=res.data.personObj.lastName,
+                phonenumber=res.data.personObj.phonenumber
             };
             SecurityManager.SignIn(this.HttpContext, accountSec, CookieAuthenticationDefaults.AuthenticationScheme);
             return res;
@@ -76,11 +79,9 @@ namespace Student_WebAdmin.Controllers
                 jResult.error = new error(0, DataAnnotationExtensionMethod.GetErrorMessage(this));
                 return Json(jResult);
             }
-            
             var res = await LoginFunc(model);
             return Json(jResult.MapData(res, returnUrl));
         }
-
         public IActionResult LogOut(string returnUrl, int? autoLogout)
         {
             if (User.Identity.IsAuthenticated)
@@ -99,20 +100,11 @@ namespace Student_WebAdmin.Controllers
                 return Redirect($"/account/login?returnUrl={returnUrl}");
             return Redirect("/account/login");
         }
-        public async Task<IActionResult>Register()
-        {
-            return View();
-        }
         [HttpGet]
         public async Task<IActionResult>UserProfile()
         {
             var personId = ClaimsExtensionMethod.GetClaim(HttpContext, "UserId");
             return View();
         }
-        //[HttpPost,ValidateAntiForgeryToken]
-        //public async Task<IActionResult> UpdataProfile(M_Person model)
-        //{
-        //    return View();
-        //}
     }
 }

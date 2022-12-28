@@ -103,7 +103,8 @@ div.dataTables_scrollBody table thead .sorting:after, div.dataTables_scrollBody 
 	display: none
 }
 div.dataTables_scrollBody table tbody tr:first-child th, div.dataTables_scrollBody table tbody tr:first-child td {
-	border-top: none
+	border-top: none;
+	font-size:20px;
 }
 div.dataTables_scrollFoot>.dataTables_scrollFootInner {
 	box-sizing: content-box

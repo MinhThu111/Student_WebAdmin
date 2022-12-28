@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Tin tức";
+}
+@section Styles{
+    <partial name="_P_StylesTableAndFormBasic" />
+    <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/assets/css/dataTables.uikit.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assets/plugins/summernote/summernote-lite.min.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+}
+@section Scripts{
+    <partial name="_P_ScriptsTableAndFormBasic" />
+    <script src="~/assets/plugins/select2/js/select2.min.js"></script>
+    <script src="~/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <script src="~/assets/plugins/summernote/summernote.min.js"></script>
+    <script src="~/assets/plugins/summernote/summernote-lite.min.js"></script>
+    <script src="~/controller/news_manage.js" asp-append-version="true"></script>
+}
+<div class="wrapper">
+    <div class="page-wrapper">
+        <div class="page-content-wrapper">
+            <div class="page-content" id="div_main_table">
+                <div class="card radius-15">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h5 class="mb-0">QUẢN LÝ BÀI VIẾT</h5>
+                        </div>
+                        <hr />
+                        <div>
+                            <div class="input-group" style="font-size:17px">
+                                <select id="select_search_status" class="col-md-auto btn-outline-primary"
+                                        onchange="SearchStatus()"
+                                        data-live-search="false" style="font-size:17px; min-width:200px">
+                                    <option value="0,1">Trạng thái</option>
+                                    <option value="0,1">--Tất cả--</option>
+                                    <option class="text-success" value="1">Mở</option>
+                                    <option class="text-warning" value="0">Khóa</option>
+                                </select>
+                                <select id="select_search_newscategory" class="col-md-auto btn-outline-success ml-3"
+                                        onchange="SearchStatus()"
+                                        data-live-search="false" asp-items="ViewBag.NewsCategory" style="font-size:17px; min-width:200px">
+                                    <option value="0">Thể loại</option>
+                                    <option value="0">--Tất cả--</option>
+                                </select>
+                                <div class="col-12 col-lg-auto" style="font-size:17px; min-width:200px">
+                                    <a href="#addNewPersonModal" class="btn btn-outline-info" onclick="ShowAddModal(this)"><i class="material-icons">&#xea20;</i> <span>THÊM</span></a>
+                                    <button class="btn btn-outline-dark ml-3" onclick="LoadDataTable()"><i class="material-icons">&#xe5d5;</i> <span>TẢI LẠI</span></button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive pl-2 pr-2">
+                        <table class="table mb-0 w-100 uk-table uk-table-hover uk-table-striped uk-table-middle table-bordered" id="table_main">
+                            <thead>
+                                <tr style="background-color: rgb(78, 173, 207)">
+                                    <th>STT</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Chủ đề</th>
+                                    <th>Ảnh bìa</th>
+                                    <th>Loại bài viết</th>
+                                    <th>Trạng thái</th>
+                                    <th class="text-white"></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body card_background_detail" id="div_view_panel" style="display:none;"></div>
+    </div>
+</div>
