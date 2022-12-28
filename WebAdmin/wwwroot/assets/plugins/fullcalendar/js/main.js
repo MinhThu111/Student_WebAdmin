@@ -1839,14 +1839,14 @@ var FullCalendar = (function (exports) {
         if (instance) {
             var def_1 = eventStore.defs[instance.defId];
             // get events/instances with same group
-            var newStore = filterEventStoreDefs(eventStore, function (lookDef) {
+            var Studenttore = filterEventStoreDefs(eventStore, function (lookDef) {
                 return isEventDefsGrouped(def_1, lookDef);
             });
             // add the original
             // TODO: wish we could use eventTupleToStore or something like it
-            newStore.defs[def_1.defId] = def_1;
-            newStore.instances[instance.instanceId] = instance;
-            return newStore;
+            Studenttore.defs[def_1.defId] = def_1;
+            Studenttore.instances[instance.instanceId] = instance;
+            return Studenttore;
         }
         return createEmptyEventStore();
     }
@@ -7227,7 +7227,7 @@ var FullCalendar = (function (exports) {
             var eventUiBases = this.buildEventUiBases(renderableEventStore.defs, eventUiSingleBase, eventUiBySource);
             var prevLoadingLevel = state.loadingLevel || 0;
             var loadingLevel = eventSourceLoadingLevel;
-            var newState = {
+            var Studenttate = {
                 dynamicOptionOverrides: dynamicOptionOverrides,
                 currentViewType: currentViewType,
                 currentDate: currentDate,
@@ -7244,10 +7244,10 @@ var FullCalendar = (function (exports) {
                 eventDrag: reduceEventDrag(state.eventDrag, action),
                 eventResize: reduceEventResize(state.eventResize, action)
             };
-            var contextAndState = __assign(__assign({}, calendarContext), newState);
+            var contextAndState = __assign(__assign({}, calendarContext), Studenttate);
             for (var _i = 0, _c = optionsData.pluginHooks.reducers; _i < _c.length; _i++) {
                 var reducer = _c[_i];
-                __assign(newState, reducer(state, action, contextAndState)); // give the OLD state, for old value
+                __assign(Studenttate, reducer(state, action, contextAndState)); // give the OLD state, for old value
             }
             // TODO: use propSetHandlers in plugin system
             if (!prevLoadingLevel && loadingLevel) {
@@ -7256,7 +7256,7 @@ var FullCalendar = (function (exports) {
             else if (prevLoadingLevel && !loadingLevel) {
                 emitter.trigger('loading', false);
             }
-            this.state = newState;
+            this.state = Studenttate;
             if (props.onAction) {
                 props.onAction(action);
             }
@@ -11871,14 +11871,14 @@ var FullCalendar = (function (exports) {
         var dayStart = dayDate;
         var dayEnd = addDays(dayStart, 1);
         var dayRange = { start: dayStart, end: dayEnd };
-        var newSegs = [];
+        var Studentegs = [];
         for (var _i = 0, segs_2 = segs; _i < segs_2.length; _i++) {
             var seg = segs_2[_i];
             var eventRange = seg.eventRange;
             var origRange = eventRange.range;
             var slicedRange = intersectRanges(origRange, dayRange);
             if (slicedRange) {
-                newSegs.push(__assign(__assign({}, seg), { firstCol: colIndex, lastCol: colIndex, eventRange: {
+                Studentegs.push(__assign(__assign({}, seg), { firstCol: colIndex, lastCol: colIndex, eventRange: {
                         def: eventRange.def,
                         ui: __assign(__assign({}, eventRange.ui), { durationEditable: false }),
                         instance: eventRange.instance,
@@ -11886,7 +11886,7 @@ var FullCalendar = (function (exports) {
                     }, isStart: seg.isStart && slicedRange.start.valueOf() === origRange.start.valueOf(), isEnd: seg.isEnd && slicedRange.end.valueOf() === origRange.end.valueOf() }));
             }
         }
-        return newSegs;
+        return Studentegs;
     }
 
     var TableRow = /** @class */ (function (_super) {

@@ -87,7 +87,8 @@ namespace Student_WebAdmin.Services
                 {"folkId",model.folkId },
                 {"addressId",model.addressId },
                 {"phoneNumber",model.phoneNumber },
-                {"email", model.email}
+                {"email", model.email},
+                {"avatarurl", model.avatarUrl}
                 //{"createdBy", createdBy},
             };
             return await _callApi.PostResponseDataAsync<M_Person>("/Person/Create", dictPars, accessToken);

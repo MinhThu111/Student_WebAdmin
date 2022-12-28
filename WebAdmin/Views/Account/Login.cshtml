@@ -3,15 +3,8 @@
 }
 @model Student_WebAdmin.Models.EM_AccountSignIn
 @section Scripts{
-    @*<script>
-        var signOutMessage = '@TempData["AutoLogoutMessage"]';
-        if (!IsNullOrEmty(signOutMessage))
-            ShowToastNoti('warning', '', signOutMessage);
-    </script>*@
     <script src="~/controller/account_sign_in.js" asp-append-version="true"></script>
 }
-
-
 <div class="wrapper">
     <div class="section-authentication-login d-flex align-items-center justify-content-center">
         <div class="row">
@@ -24,33 +17,20 @@
                                     <img src="~/assets/images/logo-icon.png" width="80" alt="">
                                     <h3 class="mt-4 font-weight-bold">Welcome Back</h3>
                                 </div>
-
-                                @*//form*@
-                            <form method="post" class="needs-validation" novalidate id="form_data" asp-antiforgery="true">
-                                <div asp-validation-summary="All" class="text-danger"></div>
-                                <div class="form-group mt-4">
-                                    <label>Email Address</label>
-                                    <input asp-for="userName" type="text" class="form-control" placeholder="Enter your email address" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input asp-for="password" type="password" class="form-control" placeholder="Enter your password" />
-                                </div>
-                                @*<div class="form-row">
-            <div class="form-group col">
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
-                    <label class="custom-control-label" for="customSwitch1">Remember Me</label>
-                </div>
-            </div>
-        </div>*@
-                                <div class="btn-group mt-3 w-100">
-                                    <button type="submit" class="btn btn-primary btn-block" id="btn_submit_form">Log In</button>
-                                    
-                                </div>
-                            </form>
-
-                                
+                                <form method="post" class="needs-validation" novalidate id="form_data" asp-antiforgery="true">
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                    <div class="form-group mt-4">
+                                        <label>Email Address</label>
+                                        <input asp-for="userName" type="text" class="form-control" placeholder="Enter your email address" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input asp-for="password" type="password" class="form-control" placeholder="Enter your password" />
+                                    </div>
+                                    <div class="btn-group mt-3 w-100">
+                                        <button type="submit" class="btn btn-primary btn-block" id="btn_submit_form">Log In</button>
+                                    </div>
+                                </form>
                                 <hr>
                                 <div class="text-center">
                                     <p class="mb-0">
@@ -63,10 +43,8 @@
                             <img src="~/assets/images/login-images/login-frent-img.jpg" class="card-img login-img h-100" alt="...">
                         </div>
                     </div>
-                    <!--end row-->
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- end wrapper -->

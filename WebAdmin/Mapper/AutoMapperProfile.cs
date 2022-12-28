@@ -17,9 +17,12 @@ namespace Student_WebAdmin.Mapper
             CreateMap<M_Province, VM_SelectDropDown>();
             CreateMap<M_District, VM_SelectDropDown>();
             CreateMap<M_Ward, VM_SelectDropDown>();
+            CreateMap<M_News, VM_SelectDropDown>();
+            CreateMap<M_NewsCategory, VM_SelectDropDown>();
             #endregion
 
             CreateMap<M_Person, EM_Person>();
+            CreateMap<M_News, EM_News>();
             //#region Account Person
             ////CreateMap<M_Person, EM_Person>()
             ////.ForMember(des => des.imageUrl, opt => opt.MapFrom(source => source.imageObj.mediumUrl));

@@ -1,10 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
-    var data = ViewBag.data as IEnumerable<M_Count>;
+
+    ViewData["Title"] = "Trang chủ";
+    var dataTeacher = ViewBag.data as IEnumerable<M_Count>;
 }
 @section Styles{
     <partial name="_P_StylesTableAndFormBasic" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.13.1/css/dataTables.uikit.min.css" rel="stylesheet" />
@@ -14,7 +14,6 @@
     <partial name="_P_ScriptsTableAndFormBasic" />
     <script src="~/controller/home_manage.js" asp-append-version="true"></script>
 }
-<p>@ViewBag.data</p>
 <div class="page-wrapper">
     <div class="page-content-wrapper">
         <div class="page-content">
@@ -25,22 +24,35 @@
                     </div>
                     <hr />
                     <div class="row">
-                        @foreach (var item in data)
+                        @foreach (var item in dataTeacher)
                         {
-                            <div class="col-12 col-lg-4">
-                                <div class="card radius-15">
-                                    <div class="card-body">
-                                        <div class="d-flex mb-2">
-                                            <p class="mb-0 font-weight-bold" style="text-transform:uppercase">@item.name</p>
-                                            <h2 class="mb-0">@item.count person</h2>
+                            if (item.name == "teacher")
+                            {
+                                <div class="col-12 col-lg-4">
+                                    <div class="card radius-15 bg-gradient-success">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-2">
+                                                <p class="mb-0 font-weight-bold" style="text-transform:uppercase">@item.name</p>
+                                                <h2 class="mb-0">@item.count person</h2>
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="col-12 col-lg-4">
+                                    <div class="card radius-15 bg-gradient-mehandi">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-2">
+                                                <p class="mb-0 font-weight-bold" style="text-transform:uppercase">@item.name</p>
+                                                <h2 class="mb-0">@item.count person</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         }
-
-
                     </div>
                 </div>
             </div>

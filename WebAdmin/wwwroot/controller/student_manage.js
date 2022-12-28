@@ -12,13 +12,13 @@ $(document).ready(function () {
 });
 const buttonActionHtml = function (id, status, timer) {
     let html = ``;
-    html += `<button type="button" class="btn btn-sm btn-outline-secondary " onclick="ShowEditModal(this,${id})" title="${_buttonResource.Edit}"><i class='bx bx-edit'></i></button> `;
-    html += `<button type="button" class="btn btn-sm btn-outline-secondary" onclick="Delete(${id})" title="${_buttonResource.Delete}" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button> `;
+    html += `<button type="button" class="btn btn-sm btn-outline-success " onclick="ShowEditModal(this,${id})" title="${_buttonResource.Edit}"><i class='bx bx-edit'></i></button> `;
+    html += `<button type="button" class="btn btn-sm btn-outline-danger"  onclick="Delete(${id})" title="${_buttonResource.Delete}" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button> `;
   
     if (parseInt(status) != -1) {
         switch (parseInt(status)) {
-            case 0: html += `<button type="button" class="btn btn-sm btn-outline-warning text-secondary" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-lock"></i></button>`; break;
-            case 1: html += `<button type="button" class="btn btn-sm btn-outline-secondary text-info" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-unlock"></i></button>`; break;
+            case 0: html += `<button type="button" class="btn btn-sm btn-outline-warning" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-lock"></i></button>`; break;
+            case 1: html += `<button type="button" class="btn btn-sm btn-outline-primary" text-info" id="${status}" onclick="ChangeStatus(this, event, '${id}', '${timer}')" ><i class="lni lni-unlock"></i></button>`; break;
             default: break;
         }
     }
@@ -92,8 +92,8 @@ const columnTable = function () {
         },
         {
             data: "avatarUrl",
-            render: (data, type, row, meta) => IsNullOrEmty(data) ? '' : `<img class="img img-thumbnail" src="${data}" style="width:90%;height:90%;object-fit:cover;" alt="avatar" ${_imageErrorUrl.square}' />`,
-            className: "text-center text-nowrap",
+            render: (data, type, row, meta) => IsNullOrEmty(data) ? '' : `<img class="img img-thumbnail" src="${data}" style="width:150px;height:auto;object-fit:cover;" alt="avatar" ${_imageErrorUrl.square}' />`,
+            className: "text-center text-nowrap text-dark",
         },
 
         {
@@ -121,7 +121,7 @@ function LoadDataTable(method = 'GET') {
         lengthMenu: _lengthMenuResource,
         colReorder: { allowReorder: false },
         select: false,
-        scrollY: '300px',
+        scrollY: '600px',
         scrollCollapse: true,
         stateSave: false,
         processing: true,
@@ -171,6 +171,13 @@ function ShowAddModal(elm) {
             warningClass: "badge badge-success",
             limitReachedClass: "badge badge-danger"
         });
+        $('#form_data [name="avatarUrl"]').on('change', function () {
+            let value = $(this).val();
+            if (!value) {
+                value = '/img/none_img.png';
+            }
+            $('#img_avatar_preview').attr('src', value);
+        })
         InitSubmitAddForm();
     }).fail(function (err) {
         $(elm).attr('disabled', false); $(elm).html(text);
@@ -194,6 +201,16 @@ function ShowEditModal(elm, id) {
             warningClass: "badge badge-success",
             limitReachedClass: "badge badge-danger"
         });
+        let value = $('#form_data [name="avatarUrl"]').val();
+        console.log(value);
+        $('#img_avatar_preview').attr('src', value);
+        $('#form_data [name="avatarUrl"]').on('change', function () {
+            let value = $(this).val();
+            if (!value) {
+                value = '/img/none_img.png';
+            }
+            $('#img_avatar_preview').attr('src', value);
+        })
         InitSubmitEditForm();
     }).fail(function (err) {
         $(elm).attr('disabled', false); $(elm).html(text);
@@ -287,9 +304,6 @@ function InitSubmitEditForm() {
         let isvalidate = CheckValidationUnobtrusive($formElm);
         if (!isvalidate) { ShowToastNoti('warning', '', _resultActionResource.PleaseWrite); return false; }
         let formData = new FormData($formElm[0]);
-
-        //laddaSubmitForm = Ladda.create($formElm.find('[type="submit"]'));
-        //laddaSubmitForm.start();
         $.ajax({
             url: '/Student/P_Edit',
             type: 'POST',

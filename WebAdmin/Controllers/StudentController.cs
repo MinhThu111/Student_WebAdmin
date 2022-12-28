@@ -7,29 +7,28 @@ using Student_WebAdmin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.WebSockets;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Student_WebAdmin.Controllers
 {
+    [Authorize]
     public class StudentController : BaseController<StudentController>
     {
-        //call api new
         private static List<M_Person> _persons = new List<M_Person>();
         private readonly IS_Person _s_person;
         private readonly IS_Nationality _s_nationality;
         private readonly IS_PersonType _s_persontype;
         private readonly IS_Folk _s_folk;
         private readonly IS_Religion _s_religion;
-        private readonly IMapper _mapper;
         private readonly IS_Address _s_address;
 
-        public StudentController(IS_Person person, IS_Nationality nationality, IS_PersonType persontype, IS_Folk folk, IS_Religion religion, IMapper mapper, IS_Address s_address)
+        public StudentController(IS_Person person, IS_Nationality nationality, IS_PersonType persontype, IS_Folk folk, IS_Religion religion,IS_Address s_address)
         {
             _s_person = person;
             _s_nationality = nationality;
             _s_persontype = persontype;
             _s_folk = folk;
             _s_religion = religion;
-            _mapper = mapper;
             _s_address = s_address;
         }
 
@@ -38,7 +37,7 @@ namespace Student_WebAdmin.Controllers
             return View();
         }
 
-        [HttpGet]//ok
+        [HttpGet]
         public async Task<JsonResult> GetList(string status, string lstpersontypeid)
         {
             var res = await _s_person.getListPersonBySequenceStatus(_accessToken, status, lstpersontypeid);
@@ -53,8 +52,7 @@ namespace Student_WebAdmin.Controllers
             return Json(new M_JResult(res));
         }
 
-
-        [HttpGet]//ok
+        [HttpGet]
         public async Task<IActionResult> P_Add()
         {
             Task task1 = SetDropDownNationality(),
@@ -80,8 +78,7 @@ namespace Student_WebAdmin.Controllers
             return Json(jResult.MapData(res));
         }
 
-
-        [HttpGet]//ok
+        [HttpGet]
         public async Task<IActionResult> P_Edit(int id)
         {
             var res = await _s_person.getPersonById(_accessToken, id);
@@ -114,15 +111,14 @@ namespace Student_WebAdmin.Controllers
             return Json(jResult.MapData(res));
         }
 
-
-        [HttpPost]//ok
+        [HttpPost]
         public async Task<JsonResult> Delete(int id)
         {
             var res = await _s_person.Delete(_accessToken, id, _userId);
             return Json(new M_JResult(res));
         }
 
-        [HttpPost]//ok
+        [HttpPost]
         public async Task<JsonResult> ChangeStatus(int id, int status, DateTime? timer)
         {
             var res = await _s_person.UpdateStatus(_accessToken, id, status, timer, _userId);
@@ -161,7 +157,6 @@ namespace Student_WebAdmin.Controllers
                 result = _mapper.Map<List<VM_SelectDropDown>>(res.data);
             ViewBag.ReligionId = new SelectList(result, "Id", "Name", selectedId);
         }
-
         private async Task SetDropDownDistrict(int? selectedId = 0, int? provinceId = 1)
         {
             List<VM_SelectDropDown> result = new List<VM_SelectDropDown>();
@@ -170,7 +165,6 @@ namespace Student_WebAdmin.Controllers
                 result = _mapper.Map<List<VM_SelectDropDown>>(res.data);
             ViewBag.DistrictId = new SelectList(result, "Id", "Name", selectedId);
         }
-
         private async Task SetDropDownWard(int? selectedId = 0, int? districtId = 1)
         {
             List<VM_SelectDropDown> result = new List<VM_SelectDropDown>();

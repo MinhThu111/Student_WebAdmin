@@ -467,9 +467,9 @@
       key: "escapeString",
       value: function escapeString(str) {
         var escapeWith = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'x';
-        var newStr = str.toString().slice();
-        newStr = newStr.replace(/[` ~!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]/gi, escapeWith);
-        return newStr;
+        var Studenttr = str.toString().slice();
+        Studenttr = Studenttr.replace(/[` ~!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]/gi, escapeWith);
+        return Studenttr;
       }
     }, {
       key: "negToZero",
@@ -16731,14 +16731,14 @@
         var ttCtx = this.ttCtx;
         var col = j;
         var points = w.globals.dom.baseEl.querySelectorAll('.apexcharts-series:not(.apexcharts-series-collapsed) .apexcharts-marker');
-        var newSize = w.config.markers.hover.size;
+        var Studentize = w.config.markers.hover.size;
 
         for (var p = 0; p < points.length; p++) {
           var rel = points[p].getAttribute('rel');
           var index = points[p].getAttribute('index');
 
-          if (newSize === undefined) {
-            newSize = w.globals.markers.size[index] + w.config.markers.hover.sizeOffset;
+          if (Studentize === undefined) {
+            Studentize = w.globals.markers.size[index] + w.config.markers.hover.sizeOffset;
           }
 
           if (col === parseInt(rel, 10)) {
@@ -16748,7 +16748,7 @@
             me.tooltipPosition.moveXCrosshairs(cx);
 
             if (!ttCtx.fixedTooltip) {
-              me.tooltipPosition.moveTooltip(cx, cy, newSize);
+              me.tooltipPosition.moveTooltip(cx, cy, Studentize);
             }
           } else {
             me.oldPointSize(points[p]);
@@ -16759,17 +16759,17 @@
       key: "newPointSize",
       value: function newPointSize(rel, point) {
         var w = this.w;
-        var newSize = w.config.markers.hover.size;
+        var Studentize = w.config.markers.hover.size;
         var elPoint = rel === 0 ? point.parentNode.firstChild : point.parentNode.lastChild;
 
         if (elPoint.getAttribute('default-marker-size') !== '0') {
           var index = parseInt(elPoint.getAttribute('index'), 10);
 
-          if (newSize === undefined) {
-            newSize = w.globals.markers.size[index] + w.config.markers.hover.sizeOffset;
+          if (Studentize === undefined) {
+            Studentize = w.globals.markers.size[index] + w.config.markers.hover.sizeOffset;
           }
 
-          elPoint.setAttribute('r', newSize);
+          elPoint.setAttribute('r', Studentize);
         }
       }
     }, {
@@ -22780,7 +22780,7 @@
 
     }, {
       key: "_updateSeries",
-      value: function _updateSeries(newSeries, animate) {
+      value: function _updateSeries(Studenteries, animate) {
         var _this2 = this;
 
         var overwriteInitialSeries = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
@@ -22795,7 +22795,7 @@
         var existingSeries; // axis charts
 
         if (w.globals.axisCharts) {
-          existingSeries = newSeries.map(function (s, i) {
+          existingSeries = Studenteries.map(function (s, i) {
             return _this2._extendSeries(s, i);
           });
 
@@ -22808,7 +22808,7 @@
           w.config.series = existingSeries;
         } else {
           // non-axis chart (pie/radialbar)
-          w.config.series = newSeries.slice();
+          w.config.series = Studenteries.slice();
         }
 
         if (overwriteInitialSeries) {
@@ -29236,29 +29236,29 @@
     }, {
       key: "updateSeries",
       value: function updateSeries() {
-        var newSeries = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+        var Studenteries = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
         var animate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var overwriteInitialSeries = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
         this.series.resetSeries(false);
         this.updateHelpers.revertDefaultAxisMinMax();
-        return this.updateHelpers._updateSeries(newSeries, animate, overwriteInitialSeries);
+        return this.updateHelpers._updateSeries(Studenteries, animate, overwriteInitialSeries);
       }
       /**
        * Allows users to append a new series after the chart has rendered.
        *
-       * @param {array} newSerie - New serie which will be appended to the existing series
+       * @param {array} Studenterie - New serie which will be appended to the existing series
        */
 
     }, {
       key: "appendSeries",
-      value: function appendSeries(newSerie) {
+      value: function appendSeries(Studenterie) {
         var animate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var overwriteInitialSeries = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-        var newSeries = this.w.config.series.slice();
-        newSeries.push(newSerie);
+        var Studenteries = this.w.config.series.slice();
+        Studenteries.push(Studenterie);
         this.series.resetSeries(false);
         this.updateHelpers.revertDefaultAxisMinMax();
-        return this.updateHelpers._updateSeries(newSeries, animate, overwriteInitialSeries);
+        return this.updateHelpers._updateSeries(Studenteries, animate, overwriteInitialSeries);
       }
       /**
        * Allows users to append Data to series.
@@ -29273,17 +29273,17 @@
         var me = this;
         me.w.globals.dataChanged = true;
         me.series.getPreviousPaths();
-        var newSeries = me.w.config.series.slice();
+        var Studenteries = me.w.config.series.slice();
 
-        for (var i = 0; i < newSeries.length; i++) {
+        for (var i = 0; i < Studenteries.length; i++) {
           if (newData[i] !== null && typeof newData[i] !== 'undefined') {
             for (var j = 0; j < newData[i].data.length; j++) {
-              newSeries[i].data.push(newData[i].data[j]);
+              Studenteries[i].data.push(newData[i].data[j]);
             }
           }
         }
 
-        me.w.config.series = newSeries;
+        me.w.config.series = Studenteries;
 
         if (overwriteInitialSeries) {
           me.w.globals.initialSeries = JSON.parse(JSON.stringify(me.w.config.series));

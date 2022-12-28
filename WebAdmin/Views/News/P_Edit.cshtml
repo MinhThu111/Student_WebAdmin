@@ -1,0 +1,56 @@
+﻿@model EM_News
+<div class="wrapper">
+    <div class="page-wrapper">
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <div class="card radius-15">
+                    <div class="card-body">
+                        <form asp-action="P_Add" id="form_data" asp-antiforgery="true">
+                            <input type="hidden" asp-for="id"/>
+                            <input type="hidden" asp-for="titleslug"/>
+                            <input type="hidden" asp-for="timer"  value="@Model.timer?.ToString("O")"/>
+                            <div class="border-0">
+                                <div class="modal-header border-0">
+                                    <h4 class="modal-title">CHỈNH SỬA BÀI VIẾT MỚI</h4>
+                                </div>
+                                <div class="row" style="font-size:17px">
+                                    <div class="col-12 col-lg-4 border-right">
+                                        <div class="form-group">
+                                            <label class="control-label">Tiêu đề</label>
+                                            <input asp-for="title" class="form-control" placeholder="Tiêu đề">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Chủ đề</label>
+                                            <select asp-for="newscategoryid" asp-items="ViewBag.NewsCategory" class="form-control select2" style="width:100%">
+                                                <option value="0">--Chọn--</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Mô tả</label>
+                                            <textarea asp-for="description" class="form-control" placeholder="Mô tả" rows="4"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Ảnh bìa</label>
+                                            <input asp-for="avatarurl" class="form-control" placeholder="Ảnh bìa">
+                                            <img id="img_avatar_preview" src="~/img/none_img.png" alt="Ảnh bìa xem trước" style="width:100%;padding-top:10px;" />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="button" value="HỦY BỎ" class="btn btn-outline-secondary waves-effect " onclick="BackToTable('#div_main_table', '#div_view_panel');" />
+                                            <input type="submit" class="btn btn-success" value="CHỈNH SỬA">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-8 border-left">
+                                        <div class="form-group">
+                                            <label class="control-label">Nội dung</label>
+                                            <textarea asp-for="detail" class="form-control" id="summernote"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
